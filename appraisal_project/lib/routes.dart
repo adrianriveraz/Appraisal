@@ -14,7 +14,7 @@ class RouteGenerator{
       
       case '/appForm': //form page
       //add type validation later
-        return MaterialPageRoute(builder: (_) => MyForm());
+        return MaterialPageRoute(builder: (_) => AppForm());
 
       default: //otherwise navigate to error page
         return _errorRoute();
