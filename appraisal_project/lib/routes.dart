@@ -1,4 +1,4 @@
-import 'package:appraisal_project/screens/form.dart';
+import 'package:appraisal_project/screens/form/form.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/home/home.dart';
 

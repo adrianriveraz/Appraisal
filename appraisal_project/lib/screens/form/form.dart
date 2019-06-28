@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:appraisal_project/formdef.dart';
+import 'package:appraisal_project/screens/form/formdef.dart';
 // List for dropdown menu field states
 List<String> _ustates = <String>['AL','AK','AZ','AR','CA','CO','CT'
 ,'DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA'
 ,'MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH'
 ,'OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI'
 ,'WY'];
-  String _ustate = '';
+  String _ustate = null;
 
 //Form Object defined
 ApForm newForm = new ApForm();
