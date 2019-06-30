@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "322340890332",
+    "firebase_url": "https://appraisalproject-41a5e.firebaseio.com",
+    "project_id": "appraisalproject-41a5e",
+    "storage_bucket": "appraisalproject-41a5e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:322340890332:android:35d905bb6b09f394",
+        "android_client_info": {
+          "package_name": "com.example.appraisal_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "322340890332-b88vda1e6mg1hjecr01s1df2ioadvmuq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaswXdoUf1X3LlzvDbPrIecW9qCmVId5o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "322340890332-b88vda1e6mg1hjecr01s1df2ioadvmuq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "322340890332-adimnnc70a2e6pclvuttsl21e03ibee0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.appraisalProject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
