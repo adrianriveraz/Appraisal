@@ -1,36 +1,37 @@
 import 'package:appraisal_project/screens/form.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/home/home.dart';
+import 'package:appraisal_project/screens/captureMedia.dart';
 
 //generate routes for navagation
-class RouteGenerator{
-  static Route<dynamic> generateRoute(RouteSettings settings){
-    //get passed in arguments
-    //final args = settings.arguments;
-
-    switch(settings.name){
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
       case '/': //home page
         return MaterialPageRoute(builder: (_) => Home());
-      
+
       case '/appForm': //form page
-      //add type validation later
+        //add type validation later
         return MaterialPageRoute(builder: (_) => MyForm());
+
+      case '/mediaCapture': //form page
+        //add type validation later
+        return MaterialPageRoute(builder: (_) => CaptureMedia());
 
       default: //otherwise navigate to error page
         return _errorRoute();
-
     }
   }
 
   //define error page
-  static Route<dynamic> _errorRoute(){
-    return MaterialPageRoute(builder: (_){
+  static Route<dynamic> _errorRoute() {
+    return MaterialPageRoute(builder: (_) {
       return Scaffold(
         appBar: AppBar(
           title: Text('Error'),
-      ),
-      body: Center(
-        child: Text("ERROR"),
+        ),
+        body: Center(
+          child: Text("ERROR"),
         ),
       );
     });
