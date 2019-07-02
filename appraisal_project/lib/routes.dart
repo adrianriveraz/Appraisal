@@ -1,7 +1,9 @@
+import 'package:appraisal_project/root.dart';
 import 'package:appraisal_project/screens/form/form.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/home/home.dart';
-
+import 'package:appraisal_project/screens/login/login.dart';
+import 'package:appraisal_project/auth.dart';
 //generate routes for navagation
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -9,9 +11,13 @@ class RouteGenerator{
     //final args = settings.arguments;
 
     switch(settings.name){
-      case '/': //home page
+      case '/': //login page
+        return MaterialPageRoute(builder: (_) => Login(auth: new Auth()));
+        //return MaterialPageRoute(builder: (_) => RootPage(auth: ,));
+
+      case '/home': //home page
         return MaterialPageRoute(builder: (_) => Home());
-      
+
       case '/appForm': //form page
       //add type validation later
         return MaterialPageRoute(builder: (_) => AppForm());

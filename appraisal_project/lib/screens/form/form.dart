@@ -9,16 +9,16 @@ List<String> _ustates = <String>['AL','AK','AZ','AR','CA','CO','CT'
   String _ustate = null;
 
 //Form Object defined
-ApForm newForm = new ApForm();
+ApForm _newForm = new ApForm();
 
 //create form Widget
 class AppForm extends StatefulWidget{
   @override 
-  AppFormState createState() => new AppFormState();
+  _AppFormState createState() => new _AppFormState();
 }
 
 //create State class to hold form data
-class AppFormState extends State<AppForm>{
+class _AppFormState extends State<AppForm>{
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -45,7 +45,7 @@ class AppFormState extends State<AppForm>{
                   labelText: 'Property Address',
                 ),
                 validator: (val) => val.isEmpty ? 'Property Address is required' : null,
-                onSaved: (val) => newForm.paddress = val,
+                onSaved: (val) => _newForm.paddress = val,
               ),
 
               new TextFormField(
@@ -54,7 +54,7 @@ class AppFormState extends State<AppForm>{
                   labelText: 'City',
                 ),
                 validator: (val) => val.isEmpty ? 'City is required' : null,
-                onSaved: (val) => newForm.city = val,
+                onSaved: (val) => _newForm.city = val,
               ),
 
               new FormField<String>(
@@ -72,7 +72,7 @@ class AppFormState extends State<AppForm>{
                         isDense: true,
                         onChanged: (String newValue) {
                           setState(() {
-                            newForm.state = newValue;
+                            _newForm.state = newValue;
                             _ustate = newValue;
                             state.didChange(newValue);
                           });
@@ -90,7 +90,7 @@ class AppFormState extends State<AppForm>{
                 validator: (val) {
                   return val != '' ? null : 'Please select a State';
                 },
-                onSaved: (val) => newForm.state = val,
+                onSaved: (val) => _newForm.state = val,
               ),
 
               new TextFormField(
@@ -99,7 +99,7 @@ class AppFormState extends State<AppForm>{
                   labelText: 'Zip Code',
                 ),
                 validator: (val) => val.isEmpty ? 'Zip Code is required' : null,
-                onSaved: (val) => newForm.zip = val,
+                onSaved: (val) => _newForm.zip = val,
               ),
 
               new TextFormField(
@@ -108,7 +108,7 @@ class AppFormState extends State<AppForm>{
                   labelText: 'Borrower',
                 ),
                 validator: (val) => val.isEmpty ? 'Borrower is required' : null,
-                onSaved: (val) => newForm.borrower = val,
+                onSaved: (val) => _newForm.borrower = val,
               ),
 
               new TextFormField(
@@ -117,7 +117,7 @@ class AppFormState extends State<AppForm>{
                   labelText: 'Owner of Public Record',
                 ),
                 validator: (val) => val.isEmpty ? 'Owner of Public Record is required' : null,
-                onSaved: (val) => newForm.opubrec = val,
+                onSaved: (val) => _newForm.opubrec = val,
               ),
 
               new TextFormField(
@@ -126,7 +126,7 @@ class AppFormState extends State<AppForm>{
                   labelText: 'County',
                 ),
                 validator: (val) => val.isEmpty ? 'County is required' : null,
-                onSaved: (val) => newForm.county = val,
+                onSaved: (val) => _newForm.county = val,
               ),
 
               new TextFormField(
@@ -135,7 +135,7 @@ class AppFormState extends State<AppForm>{
                   labelText: 'Legal Description',
                 ),
                 validator: (val) => val.isEmpty ? 'Legal Description is required' : null,
-                onSaved: (val) => newForm.legaldes = val,
+                onSaved: (val) => _newForm.legaldes = val,
               ),
 
               new TextFormField(
@@ -144,7 +144,7 @@ class AppFormState extends State<AppForm>{
                   labelText: 'Assessor Parcel Number',
                 ),
                 validator: (val) => val.isEmpty ? 'Assessor Parcel Number is required' : null,
-                onSaved: (val) => newForm.apnum = val,
+                onSaved: (val) => _newForm.apnum = val,
               ),
 
               //submit button
@@ -177,15 +177,15 @@ class AppFormState extends State<AppForm>{
       form.save(); //Invoke each onSaved event
 
       print('Form is up to date...');
-      print('Property Address: ${newForm.paddress}');
-      print('City: ${newForm.city}');
-      print('State: ${newForm.state}');
-      print('Zip Code: ${newForm.zip}');
-      print('Borrower: ${newForm.borrower}');
-      print('Owner of Public Record: ${newForm.opubrec}');
-      print('County: ${newForm.county}');
-      print('Legal Description: ${newForm.legaldes}');
-      print('Assessor Parcel Number: ${newForm.apnum}');
+      print('Property Address: ${_newForm.paddress}');
+      print('City: ${_newForm.city}');
+      print('State: ${_newForm.state}');
+      print('Zip Code: ${_newForm.zip}');
+      print('Borrower: ${_newForm.borrower}');
+      print('Owner of Public Record: ${_newForm.opubrec}');
+      print('County: ${_newForm.county}');
+      print('Legal Description: ${_newForm.legaldes}');
+      print('Assessor Parcel Number: ${_newForm.apnum}');
       print('========================================');
       print('TODO: Send data to the back end...');
     }
