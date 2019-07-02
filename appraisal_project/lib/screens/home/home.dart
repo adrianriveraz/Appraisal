@@ -2,7 +2,9 @@ import 'package:appraisal_project/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/home/widgets/goappform_button.dart';
 import 'package:appraisal_project/auth.dart';
+import 'package:appraisal_project/screens/home/widgets/gocapturemedia_button.dart';
 
+//**ADD FORM BUTTON */
 class Home extends StatelessWidget {
   Home({this.auth, this.onSignedOut});
   final BaseAuth auth;
@@ -32,7 +34,10 @@ class Home extends StatelessWidget {
           ]
         ),
         body: Center(
-          child: GoAppFormButton()
+          child: 
+          CaptureMediaButton(),
+          
+
         ),
       );
   }
