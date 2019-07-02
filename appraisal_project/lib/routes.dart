@@ -12,7 +12,7 @@ class RouteGenerator{
 
     switch(settings.name){
       case '/': //login page
-        return MaterialPageRoute(builder: (_) => Login(auth: new Auth()));
+        return MaterialPageRoute(builder: (_) => RootPage(auth: new Auth()));
         //return MaterialPageRoute(builder: (_) => RootPage(auth: ,));
 
       case '/home': //home page

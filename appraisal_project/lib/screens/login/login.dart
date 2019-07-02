@@ -13,10 +13,10 @@ enum FormType{
 
 //create form Widget
 class Login extends StatefulWidget{
-  //Login({this.auth, this.onSignedIn}); //pass auth instance to create Login page
-  Login({this.auth});
+  Login({this.auth, this.onSignedIn}); //pass auth instance to create Login page
+  //Login({this.auth});
   final BaseAuth auth;
-  //final VoidCallback onSignedIn;
+  final VoidCallback onSignedIn;
 
   @override 
   _LoginState createState() => new _LoginState();
@@ -153,7 +153,7 @@ List<Widget> buildButtons(){
         }
         //print('Skkkkkkkkkkkkkkkkkkkk');
         //print(widget.toString());
-        //widget.onSignedIn();
+        widget.onSignedIn();
         //print('Soooooouttt');
       }
       catch(e){
