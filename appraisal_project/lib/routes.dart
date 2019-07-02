@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/home/home.dart';
 import 'package:appraisal_project/screens/login/login.dart';
 import 'package:appraisal_project/auth.dart';
+import 'package:appraisal_project/screens/captureMedia.dart';
+
 //generate routes for navagation
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -21,6 +23,10 @@ class RouteGenerator{
       case '/appForm': //form page
       //add type validation later
         return MaterialPageRoute(builder: (_) => AppForm());
+      
+      case '/mediaCapture': //form page
+        //add type validation later
+        return MaterialPageRoute(builder: (_) => CaptureMedia());
 
       default: //otherwise navigate to error page
         return _errorRoute();
