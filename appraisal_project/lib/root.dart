@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/auth.dart';
 import 'package:appraisal_project/screens/login/login.dart';
+import 'package:appraisal_project/screens/home/home.dart';
 
 class RootPage extends StatefulWidget{
   RootPage({this.auth});
@@ -25,7 +26,7 @@ class _RootPageState extends State<RootPage>{
     //check status of current user
     widget.auth.currentUser().then((userId){
       setState(() {
-        //_authStatus = userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
+        _authStatus = userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
       });
     });
   }
@@ -33,9 +34,14 @@ class _RootPageState extends State<RootPage>{
   
 
   void _signedIn(){
-    //print("PPPPPP");
     setState(() {
       _authStatus = AuthStatus.signedIn;
+    });
+  }
+
+  void _signedOut(){
+    setState(() {
+      _authStatus = AuthStatus.notSignedIn;
     });
   }
 
@@ -51,10 +57,9 @@ class _RootPageState extends State<RootPage>{
         );
       case AuthStatus.signedIn:
         print(_authStatus);
-        return new Scaffold(
-          body: new Container(
-          child: new Text('Welcome'),
-        )
+        return new Home(
+          auth: widget.auth,
+          onSignedOut: _signedOut,
         );
     }
     
