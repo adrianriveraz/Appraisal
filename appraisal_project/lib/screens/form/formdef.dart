@@ -1,4 +1,4 @@
-class ApForm{
+class ApForm {
   String paddress;
   String city;
   String state;
