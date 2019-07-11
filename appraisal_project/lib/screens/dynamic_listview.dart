@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/home/widgets/goappform_button.dart';
-
+import 'package:appraisal_project/screens/home/widgets/gosearchappform_button.dart';
 class DynamicListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class BodyLayoutState extends State<BodyLayout> {
     return Column(
       children: <Widget>[
         SizedBox(
-          height: 650,
+          height: 600,
           child: AnimatedList(
             // Give the Animated list the global key
             key: _listKey,
@@ -50,6 +50,7 @@ class BodyLayoutState extends State<BodyLayout> {
           ),
         ),
         GoAppFormButton(),
+        GoSearchAppFormButton(),
         // RaisedButton(
         //   child: Text('Insert Form', style: TextStyle(fontSize: 20)),
         //   onPressed: () {
