@@ -4,16 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
-void main() {
-  runApp(CaptureMedia());
-}
-
 class CaptureMedia extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Media Capture Demo',
-      home: MyHomePage(title: 'Capture Media'),
+    return Scaffold(
+      body: MyHomePage(title: 'Capture Media'),
     );
   }
 }
