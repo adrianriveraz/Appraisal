@@ -1,6 +1,4 @@
-class LForm{
-
+class LForm {
   String email;
   String password;
-
 }

@@ -1,4 +1,3 @@
-import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
 
@@ -61,38 +60,15 @@ String _ustate = null;
 ApForm _newForm = new ApForm();
 
 //create form Widget
-class AppForm extends StatefulWidget {
+class SearchForms extends StatefulWidget {
   @override
   _AppFormState createState() => new _AppFormState();
-  AppForm({Key key, this.mediaSaved}) : super(key: key);
-
-  final List<String> mediaSaved;
 }
 
 //create State class to hold form data
-class _AppFormState extends State<AppForm> {
+class _AppFormState extends State<SearchForms> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  List<String> inMediaAttached = List<String>();
-  
-  //copy recieved media array into local array it can be updated with new media
-  @override
-  void initState() {
-    super.initState();
-    var len;
-    if(widget.mediaSaved.isEmpty){
-      len = 0;
-    }
-    else{
-      len = widget.mediaSaved.length;
-      print(len);
-    }
-    
-    for(var k = 0; k < len;k++){
-      var n = widget.mediaSaved[k];
-      inMediaAttached.add(n);
-    }
-  }
 
   @override
   // create form
@@ -100,7 +76,7 @@ class _AppFormState extends State<AppForm> {
     return new Scaffold(
         key: _scaffoldKey,
         appBar: new AppBar(
-          title: Text('New Appraisal Form'),
+          title: Text('Search Appraisal Forms'),
         ),
         body: new SafeArea(
           top: false,
@@ -224,62 +200,19 @@ class _AppFormState extends State<AppForm> {
                       val.isEmpty ? 'Assessor Parcel Number is required' : null,
                   onSaved: (val) => _newForm.apnum = val,
                 ),
-                //validator: (val) => val.isEmpty ? 'Assessor Parcel Number is required' : null,
-                //onSaved: (val) => _newForm.apnum = val,
-              //),
 
-               //new Center(
-               // child: CaptureMediaButton()
-              //),
-              new RaisedButton(
-              child: Text(
-                'Record Media',
-              ),
-              onPressed: () {
-                _awaitReturnValueFromMedia(context);
-              },
+                //submit button
+                new Container(
+                    padding: const EdgeInsets.only(left: 40.0, top: 20.0),
+                    child: new RaisedButton(
+                      child: const Text('Submit Search'),
+                      onPressed: _submitForm,
+                    )),
+              ],
             ),
-               
-              //submit button
-              new Container(
-                padding: const EdgeInsets.only(left: 40.0, top: 20.0),
-                child: new RaisedButton(
-                  child: const Text('Submit'),
-                  onPressed: _submitForm,
-            )),
-            ], 
           ),
-        ))
-    );}
-
-//recieve media attached array from Capture Media Screen
-void _awaitReturnValueFromMedia(BuildContext context) async {
-
-    // start the SecondScreen and wait for it to finish with a result
-    if(inMediaAttached == null){
-      inMediaAttached = [];
-    }
-    
-    final result = await Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => CaptureMedia(mediaAttachments: inMediaAttached ))
-         );
-
-    // after the SecondScreen result comes back update the Text widget with it
-    setState(() {
-
-      if(inMediaAttached != null){
-        inMediaAttached = result;
-      }
-      else{
-        inMediaAttached = result;
-      }
-      _newForm.attachedMedia = inMediaAttached;
-    });
+        ));
   }
-
-
-
 
 //show message at bottom of screen if try to submit in invalid form
   void showMessage(String message, [MaterialColor color = Colors.red]) {
@@ -289,7 +222,6 @@ void _awaitReturnValueFromMedia(BuildContext context) async {
 
 //submit the form, for now just print the passed values
   void _submitForm() {
-    
     final FormState form = _formKey.currentState;
 
     if (!form.validate()) {
@@ -307,7 +239,6 @@ void _awaitReturnValueFromMedia(BuildContext context) async {
       print('County: ${_newForm.county}');
       print('Legal Description: ${_newForm.legaldes}');
       print('Assessor Parcel Number: ${_newForm.apnum}');
-      
       print('========================================');
       print('TODO: Send data to the back end...');
     }

@@ -3,48 +3,43 @@ import 'package:appraisal_project/auth.dart';
 import 'package:appraisal_project/screens/login/login.dart';
 import 'package:appraisal_project/screens/home/home.dart';
 
-class RootPage extends StatefulWidget{
+class RootPage extends StatefulWidget {
   RootPage({this.auth});
   final BaseAuth auth;
 
   @override
-    State<StatefulWidget> createState() => new _RootPageState();
-    //return null;
+  State<StatefulWidget> createState() => new _RootPageState();
+  //return null;
 }
 
-enum AuthStatus{
-  notSignedIn,
-  signedIn
-}
+enum AuthStatus { notSignedIn, signedIn }
 
-class _RootPageState extends State<RootPage>{
+class _RootPageState extends State<RootPage> {
   AuthStatus _authStatus = AuthStatus.notSignedIn;
-  
+
   @override //called when stateful widget created
-  initState(){
+  initState() {
     super.initState();
     //check status of current user
-    widget.auth.currentUser().then((userId){
+    widget.auth.currentUser().then((userId) {
       setState(() {
-        _authStatus = userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
+        _authStatus =
+            userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
       });
     });
   }
 
-  
-
-  void _signedIn(){
+  void _signedIn() {
     setState(() {
       _authStatus = AuthStatus.signedIn;
     });
   }
 
-  void _signedOut(){
+  void _signedOut() {
     setState(() {
       _authStatus = AuthStatus.notSignedIn;
     });
   }
-
 
   @override
   Widget build(BuildContext context){
@@ -60,9 +55,5 @@ class _RootPageState extends State<RootPage>{
           onSignedOut: _signedOut,
         );
     }
-    
   }
-
-
-
 }
