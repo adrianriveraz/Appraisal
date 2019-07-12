@@ -60,13 +60,13 @@ String _ustate = null;
 ApForm _newForm = new ApForm();
 
 //create form Widget
-class AppForm extends StatefulWidget {
+class SearchForms extends StatefulWidget {
   @override
   _AppFormState createState() => new _AppFormState();
 }
 
 //create State class to hold form data
-class _AppFormState extends State<AppForm> {
+class _AppFormState extends State<SearchForms> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -76,7 +76,7 @@ class _AppFormState extends State<AppForm> {
     return new Scaffold(
         key: _scaffoldKey,
         appBar: new AppBar(
-          title: Text('New Appraisal Form'),
+          title: Text('Search Appraisal Forms'),
         ),
         body: new SafeArea(
           top: false,
@@ -205,7 +205,7 @@ class _AppFormState extends State<AppForm> {
                 new Container(
                     padding: const EdgeInsets.only(left: 40.0, top: 20.0),
                     child: new RaisedButton(
-                      child: const Text('Submit'),
+                      child: const Text('Submit Search'),
                       onPressed: _submitForm,
                     )),
               ],

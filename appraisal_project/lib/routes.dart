@@ -1,5 +1,6 @@
 import 'package:appraisal_project/root.dart';
 import 'package:appraisal_project/screens/form/form.dart';
+import 'package:appraisal_project/screens/searchForms.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/home/home.dart';
 // import 'package:appraisal_project/screens/login/login.dart';
@@ -32,7 +33,9 @@ class RouteGenerator {
       case '/vieweditforms': //form page
         //add type validation later
         return MaterialPageRoute(builder: (_) => DynamicListViewScreen());
-
+      case '/searchforms': //form page
+        //add type validation later
+        return MaterialPageRoute(builder: (_) => SearchForms());
       default: //otherwise navigate to error page
         return _errorRoute();
     }

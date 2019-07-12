@@ -7,7 +7,7 @@ class GoSearchAppFormButton extends StatelessWidget {
     return RaisedButton(
       child: Text("Search Apprasial Forms"),
       onPressed: () {
-        Navigator.of(context).pushNamed('/appForm');
+        Navigator.of(context).pushNamed('/searchforms');
       },
     );
   }
