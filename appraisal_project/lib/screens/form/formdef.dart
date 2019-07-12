@@ -1,4 +1,5 @@
 class ApForm{
+  int formNum;
   String paddress;
   String city;
   String state;
@@ -8,4 +9,5 @@ class ApForm{
   String county;
   String legaldes;
   String apnum;
+  List<String> attachedMedia;
 }

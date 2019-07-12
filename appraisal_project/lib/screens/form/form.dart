@@ -26,9 +26,8 @@ class AppForm extends StatefulWidget{
 class _AppFormState extends State<AppForm>{
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  
   List<String> inMediaAttached = List<String>();
-
+  
   //copy recieved media array into local array it can be updated with new media
   @override
   void initState() {
@@ -221,7 +220,7 @@ void _awaitReturnValueFromMedia(BuildContext context) async {
       else{
         inMediaAttached = result;
       }
-
+      _newForm.attachedMedia = inMediaAttached;
     });
   }
 
@@ -254,6 +253,7 @@ void _awaitReturnValueFromMedia(BuildContext context) async {
       print('County: ${_newForm.county}');
       print('Legal Description: ${_newForm.legaldes}');
       print('Assessor Parcel Number: ${_newForm.apnum}');
+      
       print('========================================');
       print('TODO: Send data to the back end...');
     }
