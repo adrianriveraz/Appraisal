@@ -1,4 +1,4 @@
-class ApForm{
+class ApForm {
   int formNum;
   String paddress;
   String city;

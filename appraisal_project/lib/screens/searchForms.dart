@@ -89,7 +89,6 @@ class _AppFormState extends State<SearchForms> {
               children: <Widget>[
                 new TextFormField(
                   decoration: const InputDecoration(
-                    icon: const Icon(Icons.home),
                     labelText: 'Property Address',
                   ),
                   validator: (val) =>
@@ -99,7 +98,6 @@ class _AppFormState extends State<SearchForms> {
 
                 new TextFormField(
                   decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
                     labelText: 'City',
                   ),
                   validator: (val) => val.isEmpty ? 'City is required' : null,
@@ -110,7 +108,6 @@ class _AppFormState extends State<SearchForms> {
                   builder: (FormFieldState<String> state) {
                     return InputDecorator(
                       decoration: InputDecoration(
-                        icon: const Icon(Icons.chevron_right),
                         labelText: 'State',
                         errorText: state.hasError ? state.errorText : null,
                       ),
@@ -144,7 +141,6 @@ class _AppFormState extends State<SearchForms> {
 
                 new TextFormField(
                   decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
                     labelText: 'Zip Code',
                   ),
                   validator: (val) =>
@@ -154,7 +150,6 @@ class _AppFormState extends State<SearchForms> {
 
                 new TextFormField(
                   decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
                     labelText: 'Borrower',
                   ),
                   validator: (val) =>
@@ -164,7 +159,6 @@ class _AppFormState extends State<SearchForms> {
 
                 new TextFormField(
                   decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
                     labelText: 'Owner of Public Record',
                   ),
                   validator: (val) =>
@@ -174,7 +168,6 @@ class _AppFormState extends State<SearchForms> {
 
                 new TextFormField(
                   decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
                     labelText: 'County',
                   ),
                   validator: (val) => val.isEmpty ? 'County is required' : null,
@@ -183,7 +176,6 @@ class _AppFormState extends State<SearchForms> {
 
                 new TextFormField(
                   decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
                     labelText: 'Legal Description',
                   ),
                   validator: (val) =>
@@ -193,7 +185,6 @@ class _AppFormState extends State<SearchForms> {
 
                 new TextFormField(
                   decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
                     labelText: 'Assessor Parcel Number',
                   ),
                   validator: (val) =>
@@ -203,7 +194,8 @@ class _AppFormState extends State<SearchForms> {
 
                 //submit button
                 new Container(
-                    padding: const EdgeInsets.only(left: 40.0, top: 20.0),
+                    padding:
+                        const EdgeInsets.only(left: 105, right: 105, top: 20.0),
                     child: new RaisedButton(
                       child: const Text('Submit Search'),
                       onPressed: _submitForm,

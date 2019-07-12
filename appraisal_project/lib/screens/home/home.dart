@@ -23,20 +23,25 @@ class Home extends StatelessWidget {
       appBar: AppBar(title: Text('Apprasial App'), actions: <Widget>[
         new FlatButton(child: new Text("Logout"), onPressed: () => _signOut())
       ]),
-      body: Center(child: buildCol()),
+      body: Center(child: buildCol(context)),
 
       //child: GoCaptureMediaButton()
     );
   }
 }
 
-Widget buildCol() =>
+Widget buildCol(context) =>
     // #docregion Row
     Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        GoAppFormButton(),
+        RaisedButton(
+          child: Text("   Create Apprasial Form   "),
+          onPressed: () {
+            Navigator.of(context).pushNamed('/appForm');
+          },
+        ),
         GoListFormsButton()
       ],
     );

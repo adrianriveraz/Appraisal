@@ -51,7 +51,7 @@ class _LoginState extends State<Login> {
     return [
       new TextFormField(
         decoration: const InputDecoration(
-          icon: const Icon(Icons.email),
+          
           labelText: 'Email',
         ),
         validator: (val) => val.isEmpty ? 'Email is required' : null,
@@ -59,7 +59,7 @@ class _LoginState extends State<Login> {
       ),
       new TextFormField(
         decoration: const InputDecoration(
-          icon: const Icon(Icons.lock),
+        
           labelText: 'Password',
         ),
         obscureText: true,

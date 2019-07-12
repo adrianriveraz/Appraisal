@@ -74,21 +74,20 @@ class _AppFormState extends State<AppForm> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<String> inMediaAttached = List<String>();
-  
+
   //copy recieved media array into local array it can be updated with new media
   @override
   void initState() {
     super.initState();
     var len;
-    if(widget.mediaSaved.isEmpty){
+    if (widget.mediaSaved.isEmpty) {
       len = 0;
-    }
-    else{
+    } else {
       len = widget.mediaSaved.length;
       print(len);
     }
-    
-    for(var k = 0; k < len;k++){
+
+    for (var k = 0; k < len; k++) {
       var n = widget.mediaSaved[k];
       inMediaAttached.add(n);
     }
@@ -103,183 +102,176 @@ class _AppFormState extends State<AppForm> {
           title: Text('New Appraisal Form'),
         ),
         body: new SafeArea(
-          top: false,
-          bottom: false,
-          child: new Form(
-            key: _formKey,
-            autovalidate: true, //validate form as data is entered
-            child: new ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              children: <Widget>[
-                new TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.home),
-                    labelText: 'Property Address',
+            top: false,
+            bottom: false,
+            child: new Form(
+              key: _formKey,
+              autovalidate: true, //validate form as data is entered
+              child: new ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                children: <Widget>[
+                  new TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Property Address',
+                    ),
+                    validator: (val) =>
+                        val.isEmpty ? 'Property Address is required' : null,
+                    onSaved: (val) => _newForm.paddress = val,
                   ),
-                  validator: (val) =>
-                      val.isEmpty ? 'Property Address is required' : null,
-                  onSaved: (val) => _newForm.paddress = val,
-                ),
 
-                new TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
-                    labelText: 'City',
+                  new TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'City',
+                    ),
+                    validator: (val) => val.isEmpty ? 'City is required' : null,
+                    onSaved: (val) => _newForm.city = val,
                   ),
-                  validator: (val) => val.isEmpty ? 'City is required' : null,
-                  onSaved: (val) => _newForm.city = val,
-                ),
 
-                new FormField<String>(
-                  builder: (FormFieldState<String> state) {
-                    return InputDecorator(
-                      decoration: InputDecoration(
-                        icon: const Icon(Icons.chevron_right),
-                        labelText: 'State',
-                        errorText: state.hasError ? state.errorText : null,
-                      ),
-                      isEmpty: _ustate == '',
-                      child: new DropdownButtonHideUnderline(
-                        child: new DropdownButton<String>(
-                          value: _ustate,
-                          isDense: true,
-                          onChanged: (String newValue) {
-                            setState(() {
-                              _newForm.state = newValue;
-                              _ustate = newValue;
-                              state.didChange(newValue);
-                            });
-                          },
-                          items: _ustates.map((String value) {
-                            return new DropdownMenuItem<String>(
-                              value: value,
-                              child: new Text(value),
-                            );
-                          }).toList(),
+                  new FormField<String>(
+                    builder: (FormFieldState<String> state) {
+                      return InputDecorator(
+                        decoration: InputDecoration(
+                          labelText: 'State',
+                          errorText: state.hasError ? state.errorText : null,
                         ),
+                        isEmpty: _ustate == '',
+                        child: new DropdownButtonHideUnderline(
+                          child: new DropdownButton<String>(
+                            value: _ustate,
+                            isDense: true,
+                            onChanged: (String newValue) {
+                              setState(() {
+                                _newForm.state = newValue;
+                                _ustate = newValue;
+                                state.didChange(newValue);
+                              });
+                            },
+                            items: _ustates.map((String value) {
+                              return new DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      );
+                    },
+                    validator: (val) {
+                      return val != '' ? null : 'Please select a State';
+                    },
+                    onSaved: (val) => _newForm.state = val,
+                  ),
+
+                  new TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Zip Code',
+                    ),
+                    validator: (val) =>
+                        val.isEmpty ? 'Zip Code is required' : null,
+                    onSaved: (val) => _newForm.zip = val,
+                  ),
+
+                  new TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Borrower',
+                    ),
+                    validator: (val) =>
+                        val.isEmpty ? 'Borrower is required' : null,
+                    onSaved: (val) => _newForm.borrower = val,
+                  ),
+
+                  new TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Owner of Public Record',
+                    ),
+                    validator: (val) => val.isEmpty
+                        ? 'Owner of Public Record is required'
+                        : null,
+                    onSaved: (val) => _newForm.opubrec = val,
+                  ),
+
+                  new TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'County',
+                    ),
+                    validator: (val) =>
+                        val.isEmpty ? 'County is required' : null,
+                    onSaved: (val) => _newForm.county = val,
+                  ),
+
+                  new TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Legal Description',
+                    ),
+                    validator: (val) =>
+                        val.isEmpty ? 'Legal Description is required' : null,
+                    onSaved: (val) => _newForm.legaldes = val,
+                  ),
+
+                  new TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Assessor Parcel Number',
+                    ),
+                    validator: (val) => val.isEmpty
+                        ? 'Assessor Parcel Number is required'
+                        : null,
+                    onSaved: (val) => _newForm.apnum = val,
+                  ),
+                  //validator: (val) => val.isEmpty ? 'Assessor Parcel Number is required' : null,
+                  //onSaved: (val) => _newForm.apnum = val,
+                  //),
+
+                  //new Center(
+                  // child: CaptureMediaButton()
+                  //),
+                  new Container(
+                    padding:
+                        const EdgeInsets.only(left: 110, right: 110, top: 5.0),
+                    child: RaisedButton(
+                      child: Text(
+                        'Record Media',
                       ),
-                    );
-                  },
-                  validator: (val) {
-                    return val != '' ? null : 'Please select a State';
-                  },
-                  onSaved: (val) => _newForm.state = val,
-                ),
-
-                new TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
-                    labelText: 'Zip Code',
+                      onPressed: () {
+                        _awaitReturnValueFromMedia(context);
+                      },
+                    ),
                   ),
-                  validator: (val) =>
-                      val.isEmpty ? 'Zip Code is required' : null,
-                  onSaved: (val) => _newForm.zip = val,
-                ),
 
-                new TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
-                    labelText: 'Borrower',
-                  ),
-                  validator: (val) =>
-                      val.isEmpty ? 'Borrower is required' : null,
-                  onSaved: (val) => _newForm.borrower = val,
-                ),
-
-                new TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
-                    labelText: 'Owner of Public Record',
-                  ),
-                  validator: (val) =>
-                      val.isEmpty ? 'Owner of Public Record is required' : null,
-                  onSaved: (val) => _newForm.opubrec = val,
-                ),
-
-                new TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
-                    labelText: 'County',
-                  ),
-                  validator: (val) => val.isEmpty ? 'County is required' : null,
-                  onSaved: (val) => _newForm.county = val,
-                ),
-
-                new TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
-                    labelText: 'Legal Description',
-                  ),
-                  validator: (val) =>
-                      val.isEmpty ? 'Legal Description is required' : null,
-                  onSaved: (val) => _newForm.legaldes = val,
-                ),
-
-                new TextFormField(
-                  decoration: const InputDecoration(
-                    icon: const Icon(Icons.chevron_right),
-                    labelText: 'Assessor Parcel Number',
-                  ),
-                  validator: (val) =>
-                      val.isEmpty ? 'Assessor Parcel Number is required' : null,
-                  onSaved: (val) => _newForm.apnum = val,
-                ),
-                //validator: (val) => val.isEmpty ? 'Assessor Parcel Number is required' : null,
-                //onSaved: (val) => _newForm.apnum = val,
-              //),
-
-               //new Center(
-               // child: CaptureMediaButton()
-              //),
-              new RaisedButton(
-              child: Text(
-                'Record Media',
+                  //submit button
+                  new Container(
+                      padding: const EdgeInsets.only(
+                          left: 130, right: 130, top: 5.0),
+                      child: new RaisedButton(
+                        child: const Text('Submit'),
+                        onPressed: _submitForm,
+                      )),
+                ],
               ),
-              onPressed: () {
-                _awaitReturnValueFromMedia(context);
-              },
-            ),
-               
-              //submit button
-              new Container(
-                padding: const EdgeInsets.only(left: 40.0, top: 20.0),
-                child: new RaisedButton(
-                  child: const Text('Submit'),
-                  onPressed: _submitForm,
-            )),
-            ], 
-          ),
-        ))
-    );}
+            )));
+  }
 
 //recieve media attached array from Capture Media Screen
-void _awaitReturnValueFromMedia(BuildContext context) async {
-
+  void _awaitReturnValueFromMedia(BuildContext context) async {
     // start the SecondScreen and wait for it to finish with a result
-    if(inMediaAttached == null){
+    if (inMediaAttached == null) {
       inMediaAttached = [];
     }
-    
+
     final result = await Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => CaptureMedia(mediaAttachments: inMediaAttached ))
-         );
+        MaterialPageRoute(
+            builder: (_) => CaptureMedia(mediaAttachments: inMediaAttached)));
 
     // after the SecondScreen result comes back update the Text widget with it
     setState(() {
-
-      if(inMediaAttached != null){
+      if (inMediaAttached != null) {
         inMediaAttached = result;
-      }
-      else{
+      } else {
         inMediaAttached = result;
       }
       _newForm.attachedMedia = inMediaAttached;
     });
   }
-
-
-
 
 //show message at bottom of screen if try to submit in invalid form
   void showMessage(String message, [MaterialColor color = Colors.red]) {
@@ -289,7 +281,6 @@ void _awaitReturnValueFromMedia(BuildContext context) async {
 
 //submit the form, for now just print the passed values
   void _submitForm() {
-    
     final FormState form = _formKey.currentState;
 
     if (!form.validate()) {
@@ -307,7 +298,7 @@ void _awaitReturnValueFromMedia(BuildContext context) async {
       print('County: ${_newForm.county}');
       print('Legal Description: ${_newForm.legaldes}');
       print('Assessor Parcel Number: ${_newForm.apnum}');
-      
+
       print('========================================');
       print('TODO: Send data to the back end...');
     }

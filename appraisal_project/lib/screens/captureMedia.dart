@@ -8,8 +8,8 @@ import 'package:path/path.dart';
 
 class CaptureMedia extends StatefulWidget {
   CaptureMedia({Key key, this.mediaAttachments}) : super(key: key);
-  
-  final List<String> mediaAttachments; 
+
+  final List<String> mediaAttachments;
 
   @override
   _CaptureMediaState createState() => _CaptureMediaState();
@@ -31,14 +31,13 @@ class _CaptureMediaState extends State<CaptureMedia> {
     super.initState();
     _isButtonDisabled = true;
     var len;
-    if(widget.mediaAttachments.isEmpty){
+    if (widget.mediaAttachments.isEmpty) {
       len = 0;
-    }
-    else{
+    } else {
       len = widget.mediaAttachments.length;
     }
-    
-    for(var k = 0; k < len;k++){
+
+    for (var k = 0; k < len; k++) {
       var n = widget.mediaAttachments[k];
       mediaAttached.add(n);
     }
@@ -69,18 +68,15 @@ class _CaptureMediaState extends State<CaptureMedia> {
     } else {
       try {
         image = await ImagePicker.pickImage(source: source);
-
       } catch (e) {
         _pickImageError = e;
       }
       setState(() {
         _imageFile = image;
         _isButtonDisabled = false;
-
       });
     }
   }
-  
 
   void _onVideoControllerUpdate() {
     setState(() {});
@@ -173,25 +169,25 @@ class _CaptureMediaState extends State<CaptureMedia> {
 
   //show message in snackbar
   void showMessage(String message, [MaterialColor color = Colors.lightBlue]) {
-    _scaffoldKey.currentState.showSnackBar(new SnackBar(backgroundColor: color,content: Center(child: new Text(message))));
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+        backgroundColor: color, content: Center(child: new Text(message))));
   }
 
-   Future _uploadPic(BuildContext context) async{
-
+  Future _uploadPic(BuildContext context) async {
     //upload selected picture to firebase
     String filename = basename(_imageFile.path);
-    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(filename);
+    StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(filename);
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     String downloadUrl = taskSnapshot.ref.getDownloadURL().toString();
     print(downloadUrl);
 
     setState(() {
-      
-      if(mediaAttached == null){
-        mediaAttached= [];
+      if (mediaAttached == null) {
+        mediaAttached = [];
       }
-      
+
       mediaAttached.add(downloadUrl);
       showMessage("Media Uploaded Successfully!");
       _imageFile = null;
@@ -199,67 +195,63 @@ class _CaptureMediaState extends State<CaptureMedia> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Capture Media'),
-        automaticallyImplyLeading: true,
-        leading: IconButton(icon:Icon(Icons.chevron_left),onPressed:() => Navigator.pop(context, mediaAttached ),)
-      ),
+          title: Text('Capture Media'),
+          automaticallyImplyLeading: true,
+          leading: IconButton(
+            icon: Icon(Icons.chevron_left),
+            onPressed: () => Navigator.pop(context, mediaAttached),
+          )),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-       Center(
-        child:
-          Platform.isAndroid
-            ? FutureBuilder<void>(
-                future: retrieveLostData(),
-                builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                    case ConnectionState.waiting:
-                      return const Text(
-                        'You have not yet picked an image.',
-                        textAlign: TextAlign.center,
-                      );
-                    case ConnectionState.done:
-                      return isVideo
-                          ? _previewVideo(_controller)
-                          : _previewImage();
-                    default:
-                      if (snapshot.hasError) {
-                        return Text(
-                          'Pick image/video error: ${snapshot.error}}',
-                          textAlign: TextAlign.center,
-                        );
-                      } else {
-                        return const Text(
-                          'You have not yet picked an image.',
-                          textAlign: TextAlign.center,
-                        );
-                      }
-                  }
-                },
-              )
-            : (isVideo ? _previewVideo(_controller) : _previewImage()),
-         
-      ),
-      new Container(
-                padding: const EdgeInsets.only(left: 40.0, top: 20.0),
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Center(
+              child: Platform.isAndroid
+                  ? FutureBuilder<void>(
+                      future: retrieveLostData(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<void> snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.none:
+                          case ConnectionState.waiting:
+                            return const Text(
+                              'You have not yet picked an image.',
+                              textAlign: TextAlign.center,
+                            );
+                          case ConnectionState.done:
+                            return isVideo
+                                ? _previewVideo(_controller)
+                                : _previewImage();
+                          default:
+                            if (snapshot.hasError) {
+                              return Text(
+                                'Pick image/video error: ${snapshot.error}}',
+                                textAlign: TextAlign.center,
+                              );
+                            } else {
+                              return const Text(
+                                'You have not yet picked an image.',
+                                textAlign: TextAlign.center,
+                              );
+                            }
+                        }
+                      },
+                    )
+                  : (isVideo ? _previewVideo(_controller) : _previewImage()),
+            ),
+            new Container(
+                padding: const EdgeInsets.only(left: 40.0, top: 20.0,right: 40),
                 child: new RaisedButton(
-                  child: const Text('Submit Selected Media'),
-                  onPressed: () {_isButtonDisabled ? null : _uploadPic(context);}
-            ))
-      
-      
-      
-      ]),
-      
-       
+                    child: const Text('Submit Selected Media'),
+                    onPressed: () {
+                      _isButtonDisabled ? null : _uploadPic(context);
+                    }))
+          ]),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
