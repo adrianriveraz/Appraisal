@@ -2,7 +2,6 @@ import 'package:appraisal_project/root.dart';
 import 'package:appraisal_project/screens/form/form.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/home/home.dart';
-import 'package:appraisal_project/screens/login/login.dart';
 import 'package:appraisal_project/auth.dart';
 import 'package:appraisal_project/screens/captureMedia.dart';
 
@@ -11,6 +10,7 @@ class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
     //get passed in arguments
     //final args = settings.arguments;
+    List<String> v= new List<String>();
 
     switch(settings.name){
       case '/': //login page
@@ -22,11 +22,11 @@ class RouteGenerator{
 
       case '/appForm': //form page
       //add type validation later
-        return MaterialPageRoute(builder: (_) => AppForm());
+        return MaterialPageRoute(builder: (_) => AppForm(mediaSaved: v));
       
       case '/mediaCapture': //form page
         //add type validation later
-        return MaterialPageRoute(builder: (_) => CaptureMedia());
+        return MaterialPageRoute(builder: (_) => CaptureMedia());//CaptureMedia());
 
       default: //otherwise navigate to error page
         return _errorRoute();

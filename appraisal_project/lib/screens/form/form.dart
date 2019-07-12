@@ -1,5 +1,7 @@
+import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
+
 // List for dropdown menu field states
 List<String> _ustates = <String>['AL','AK','AZ','AR','CA','CO','CT'
 ,'DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA'
@@ -15,12 +17,36 @@ ApForm _newForm = new ApForm();
 class AppForm extends StatefulWidget{
   @override 
   _AppFormState createState() => new _AppFormState();
+  AppForm({Key key, this.mediaSaved}) : super(key: key);
+
+  final List<String> mediaSaved;
 }
 
 //create State class to hold form data
 class _AppFormState extends State<AppForm>{
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  
+  List<String> inMediaAttached = List<String>();
+
+  //copy recieved media array into local array it can be updated with new media
+  @override
+  void initState() {
+    super.initState();
+    var len;
+    if(widget.mediaSaved.isEmpty){
+      len = 0;
+    }
+    else{
+      len = widget.mediaSaved.length;
+      print(len);
+    }
+    
+    for(var k = 0; k < len;k++){
+      var n = widget.mediaSaved[k];
+      inMediaAttached.add(n);
+    }
+  }
 
   @override 
   // create form
@@ -147,6 +173,18 @@ class _AppFormState extends State<AppForm>{
                 onSaved: (val) => _newForm.apnum = val,
               ),
 
+               //new Center(
+               // child: CaptureMediaButton()
+              //),
+              new RaisedButton(
+              child: Text(
+                'Record Media',
+              ),
+              onPressed: () {
+                _awaitReturnValueFromMedia(context);
+              },
+            ),
+               
               //submit button
               new Container(
                 padding: const EdgeInsets.only(left: 40.0, top: 20.0),
@@ -161,6 +199,35 @@ class _AppFormState extends State<AppForm>{
       );
   }
 
+//recieve media attached array from Capture Media Screen
+void _awaitReturnValueFromMedia(BuildContext context) async {
+
+    // start the SecondScreen and wait for it to finish with a result
+    if(inMediaAttached == null){
+      inMediaAttached = [];
+    }
+    
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => CaptureMedia(mediaAttachments: inMediaAttached ))
+         );
+
+    // after the SecondScreen result comes back update the Text widget with it
+    setState(() {
+
+      if(inMediaAttached != null){
+        inMediaAttached = result;
+      }
+      else{
+        inMediaAttached = result;
+      }
+
+    });
+  }
+
+
+
+
 //show message at bottom of screen if try to submit in invalid form
    void showMessage(String message, [MaterialColor color = Colors.red]) {
     _scaffoldKey.currentState
@@ -169,6 +236,7 @@ class _AppFormState extends State<AppForm>{
 
 //submit the form, for now just print the passed values
   void _submitForm() {
+    
     final FormState form = _formKey.currentState;
 
     if (!form.validate()) {

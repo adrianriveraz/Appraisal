@@ -12,3 +12,4 @@ class CaptureMediaButton extends StatelessWidget {
     );
   }
 }
+

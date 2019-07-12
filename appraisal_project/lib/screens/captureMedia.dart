@@ -3,42 +3,56 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart';
 
-void main() {
-  runApp(CaptureMedia());
-}
-
-class CaptureMedia extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Media Capture Demo',
-      home: MyHomePage(title: 'Capture Media'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class CaptureMedia extends StatefulWidget {
+  CaptureMedia({Key key, this.mediaAttachments}) : super(key: key);
+  
+  final List<String> mediaAttachments; 
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _CaptureMediaState createState() => _CaptureMediaState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _CaptureMediaState extends State<CaptureMedia> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   File _imageFile;
+  List<String> mediaAttached = List<String>();
   dynamic _pickImageError;
   bool isVideo = false;
   VideoPlayerController _controller;
   String _retrieveDataError;
+  bool _isButtonDisabled;
 
+  //copy recieved media array into local array it can be updated with new media
+  @override
+  void initState() {
+    super.initState();
+    _isButtonDisabled = true;
+    var len;
+    if(widget.mediaAttachments.isEmpty){
+      len = 0;
+    }
+    else{
+      len = widget.mediaAttachments.length;
+    }
+    
+    for(var k = 0; k < len;k++){
+      var n = widget.mediaAttachments[k];
+      mediaAttached.add(n);
+    }
+  }
+
+  //get image and enable sumbit selected media button
   void _onImageButtonPressed(ImageSource source) async {
+    var image;
+
     if (_controller != null) {
       _controller.setVolume(0.0);
       _controller.removeListener(_onVideoControllerUpdate);
     }
+
     if (isVideo) {
       ImagePicker.pickVideo(source: source).then((File file) {
         if (file != null && mounted) {
@@ -54,13 +68,19 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     } else {
       try {
-        _imageFile = await ImagePicker.pickImage(source: source);
+        image = await ImagePicker.pickImage(source: source);
+
       } catch (e) {
         _pickImageError = e;
       }
-      setState(() {});
+      setState(() {
+        _imageFile = image;
+        _isButtonDisabled = false;
+
+      });
     }
   }
+  
 
   void _onVideoControllerUpdate() {
     setState(() {});
@@ -151,14 +171,51 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  //show message in snackbar
+  void showMessage(String message, [MaterialColor color = Colors.lightBlue]) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(backgroundColor: color,content: Center(child: new Text(message))));
+  }
+
+   Future _uploadPic(BuildContext context) async{
+
+    //upload selected picture to firebase
+    String filename = basename(_imageFile.path);
+    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(filename);
+    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
+    StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
+    String downloadUrl = taskSnapshot.ref.getDownloadURL().toString();
+    print(downloadUrl);
+
+    setState(() {
+      
+      if(mediaAttached == null){
+        mediaAttached= [];
+      }
+      
+      mediaAttached.add(downloadUrl);
+      showMessage("Media Uploaded Successfully!");
+      _imageFile = null;
+      _isButtonDisabled = true;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text('Capture Media'),
+        automaticallyImplyLeading: true,
+        leading: IconButton(icon:Icon(Icons.chevron_left),onPressed:() => Navigator.pop(context, mediaAttached ),)
       ),
-      body: Center(
-        child: Platform.isAndroid
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+       Center(
+        child:
+          Platform.isAndroid
             ? FutureBuilder<void>(
                 future: retrieveLostData(),
                 builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
@@ -189,7 +246,20 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
               )
             : (isVideo ? _previewVideo(_controller) : _previewImage()),
+         
       ),
+      new Container(
+                padding: const EdgeInsets.only(left: 40.0, top: 20.0),
+                child: new RaisedButton(
+                  child: const Text('Submit Selected Media'),
+                  onPressed: () {_isButtonDisabled ? null : _uploadPic(context);}
+            ))
+      
+      
+      
+      ]),
+      
+       
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
