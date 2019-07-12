@@ -24,14 +24,14 @@ class Home extends StatelessWidget {
       appBar: AppBar(title: Text('Apprasial App'), actions: <Widget>[
         new FlatButton(child: new Text("Logout"), onPressed: () => _signOut())
       ]),
-      body: Center(child: buildRow()),
+      body: Center(child: buildCol()),
 
       //child: GoCaptureMediaButton()
     );
   }
 }
 
-Widget buildRow() =>
+Widget buildCol() =>
     // #docregion Row
     Column(
       mainAxisAlignment: MainAxisAlignment.center,

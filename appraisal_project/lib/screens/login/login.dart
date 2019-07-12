@@ -29,19 +29,19 @@ class _LoginState extends State<Login> {
   // create form
   Widget build(BuildContext context) {
     return new Scaffold(
+        backgroundColor: Colors.white,
         key: _scaffoldKey,
         appBar: new AppBar(
-          title: Text('Login'),
+          title: Text('Welcome!'),
         ),
-        body: new SafeArea(
-          top: false,
-          bottom: false,
+        body: Container(
+          // padding: new EdgeInsets.symmetric(vertical: 200),
           child: new Form(
             key: _formKey,
-            autovalidate: true, //validate form as data is entered
+            autovalidate: true,
             child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                children: buildInputs() + buildButtons()),
+                children: showImage() + buildInputs() + buildButtons()),
           ),
         ));
   }
@@ -67,6 +67,10 @@ class _LoginState extends State<Login> {
         onSaved: (val) => _newLogin.password = val,
       ),
     ];
+  }
+
+  List<Widget> showImage() {
+    return [Container(child: Image.asset('assets/logo.jpg'))];
   }
 
 //build buttons

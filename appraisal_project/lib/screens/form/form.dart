@@ -200,10 +200,16 @@ class _AppFormState extends State<AppForm> {
                       val.isEmpty ? 'Assessor Parcel Number is required' : null,
                   onSaved: (val) => _newForm.apnum = val,
                 ),
-
+                new Container(
+                    padding:
+                        const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+                    child: new RaisedButton(
+                      child: const Text('Edit'),
+                      onPressed: _submitForm,
+                    )),
                 //submit button
                 new Container(
-                    padding: const EdgeInsets.only(left: 40.0, top: 20.0),
+                    padding: const EdgeInsets.only(left: 20, right: 20),
                     child: new RaisedButton(
                       child: const Text('Submit'),
                       onPressed: _submitForm,
