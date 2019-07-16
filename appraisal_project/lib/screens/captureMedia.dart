@@ -18,7 +18,6 @@ class CaptureMedia extends StatefulWidget {
 class _CaptureMediaState extends State<CaptureMedia> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   File _imageFile;
-  File _videoFile;
   List<String> mediaAttached = List<String>();
   dynamic _pickImageError;
   bool isVideo = false;
@@ -48,7 +47,6 @@ class _CaptureMediaState extends State<CaptureMedia> {
   //get image and enable sumbit selected media button
   void _onImageButtonPressed(ImageSource source) async {
     var image;
-    var video;
 
     if (_controller != null) {
       _controller.setVolume(0.0);
@@ -56,7 +54,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
     }
 
     if (isVideo) {
-      video = ImagePicker.pickVideo(source: source).then((File file) {
+      ImagePicker.pickVideo(source: source).then((File file) {
         if (file != null && mounted) {
           setState(() {
             _controller = VideoPlayerController.file(file)
@@ -67,11 +65,6 @@ class _CaptureMediaState extends State<CaptureMedia> {
               ..play();
           });
         }
-      });
-      setState(() {
-        _videoFile = video;
-        _isButtonDisabled = false;
-
       });
     } else {
       try {
