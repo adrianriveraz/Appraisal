@@ -18,6 +18,7 @@ class CaptureMedia extends StatefulWidget {
 class _CaptureMediaState extends State<CaptureMedia> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   File _imageFile;
+  File _videoFile;
   List<String> mediaAttached = List<String>();
   dynamic _pickImageError;
   bool isVideo = false;
@@ -46,6 +47,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
   //get image and enable sumbit selected media button
   void _onImageButtonPressed(ImageSource source) async {
     var image;
+    var video;
 
     if (_controller != null) {
       _controller.setVolume(0.0);
@@ -53,7 +55,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
     }
 
     if (isVideo) {
-      ImagePicker.pickVideo(source: source).then((File file) {
+      video = ImagePicker.pickVideo(source: source).then((File file) {
         if (file != null && mounted) {
           setState(() {
             _controller = VideoPlayerController.file(file)
@@ -63,7 +65,13 @@ class _CaptureMediaState extends State<CaptureMedia> {
               ..setLooping(true)
               ..play();
           });
+        
         }
+        setState(() {
+        _videoFile = video;
+        _isButtonDisabled = false;
+
+      });
       });
     } else {
       try {
@@ -175,9 +183,14 @@ class _CaptureMediaState extends State<CaptureMedia> {
 
   Future _uploadPic(BuildContext context) async {
     //upload selected picture to firebase
-    String filename = basename(_imageFile.path);
-    StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(filename);
+    String filename;
+    if(isVideo){
+      filename = basename(_videoFile.path);
+    }
+    else{
+      filename = basename(_imageFile.path);
+    }
+    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(filename);
     StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     String downloadUrl = taskSnapshot.ref.getDownloadURL().toString();
