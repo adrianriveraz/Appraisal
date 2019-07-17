@@ -51,7 +51,6 @@ class _LoginState extends State<Login> {
     return [
       new TextFormField(
         decoration: const InputDecoration(
-          
           labelText: 'Email',
         ),
         validator: (val) => val.isEmpty ? 'Email is required' : null,
@@ -59,7 +58,6 @@ class _LoginState extends State<Login> {
       ),
       new TextFormField(
         decoration: const InputDecoration(
-        
           labelText: 'Password',
         ),
         obscureText: true,
@@ -78,33 +76,33 @@ class _LoginState extends State<Login> {
     if (_formType == FormType.login) {
       return [
         new Container(
-            padding: const EdgeInsets.only(left: 40.0),
+            padding: const EdgeInsets.only(left: 127, right: 127, top: 5.0),
             child: new RaisedButton(
-              child: new Text('Login', style: new TextStyle(fontSize: 20)),
+              child: new Text('Login', style: new TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
               onPressed: () => _submitForm(),
             )),
         new Container(
-            padding: const EdgeInsets.only(left: 40.0),
-            child: new FlatButton(
+            padding: const EdgeInsets.only(left: 69, right: 69, top: 5.0),
+            child: new RaisedButton(
               child: new Text('Create an account',
-                  style: new TextStyle(fontSize: 20)),
+                  style: new TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
               onPressed: () => moveToRegister(),
             )),
       ];
     } else {
       return [
         new Container(
-            padding: const EdgeInsets.only(left: 40.0),
+            padding: const EdgeInsets.only(left: 69, right: 69, top: 5.0),
             child: new RaisedButton(
               child: new Text('Create an account',
-                  style: new TextStyle(fontSize: 20)),
+                  style: new TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
               onPressed: () => _submitForm(),
             )),
         new Container(
-            padding: const EdgeInsets.only(left: 40.0),
-            child: new FlatButton(
+            padding: const EdgeInsets.only(left: 41, right: 41, top: 5.0),
+            child: new RaisedButton(
               child: new Text('Have an account? Login',
-                  style: new TextStyle(fontSize: 20)),
+                  style: new TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
               onPressed: () => moveToLogin(),
             )),
       ];

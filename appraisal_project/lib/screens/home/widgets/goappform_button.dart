@@ -5,7 +5,10 @@ class GoAppFormButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      child: Text(" Create Apprasial Form "),
+      child: Text(
+        " Create Apprasial Form ",
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
       onPressed: () {
         Navigator.of(context).pushNamed('/appForm');
       },

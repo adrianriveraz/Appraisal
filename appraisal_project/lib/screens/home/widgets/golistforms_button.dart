@@ -5,7 +5,10 @@ class GoListFormsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      child: Text("View/Edit Appraisal Forms"),
+      child: Text(
+        "View/Edit Appraisal Forms",
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
       onPressed: () {
         Navigator.of(context).pushNamed('/vieweditforms');
       },

@@ -230,6 +230,7 @@ class _AppFormState extends State<AppForm> {
                     child: RaisedButton(
                       child: Text(
                         'Record Media',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
                         _awaitReturnValueFromMedia(context);
@@ -242,7 +243,10 @@ class _AppFormState extends State<AppForm> {
                       padding: const EdgeInsets.only(
                           left: 130, right: 130, top: 5.0),
                       child: new RaisedButton(
-                        child: const Text('Submit'),
+                        child: const Text(
+                          'Submit',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         onPressed: _submitForm,
                       )),
                 ],

@@ -66,6 +66,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
         }
       });
     } else {
+      print("lalalalallala");
       try {
         image = await ImagePicker.pickImage(source: source);
       } catch (e) {
@@ -107,6 +108,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
     if (controller == null) {
       return const Text(
         'You have not yet picked a video',
+        style: TextStyle(fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       );
     } else if (controller.value.initialized) {
@@ -117,6 +119,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
     } else {
       return const Text(
         'Error Loading Video',
+        style: TextStyle(fontWeight: FontWeight.bold),
         textAlign: TextAlign.center,
       );
     }
@@ -135,14 +138,19 @@ class _CaptureMediaState extends State<CaptureMedia> {
         textAlign: TextAlign.center,
       );
     } else {
-      return const Text(
-        'You have not yet picked an image.',
-        textAlign: TextAlign.center,
+      return new Container(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: Text(
+          'You have not yet picked an image.',
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
       );
     }
   }
 
   Future<void> retrieveLostData() async {
+    print("RLD");
     final LostDataResponse response = await ImagePicker.retrieveLostData();
     if (response.isEmpty) {
       return;
@@ -174,6 +182,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
   }
 
   Future _uploadPic(BuildContext context) async {
+    print("Hehehe");
     //upload selected picture to firebase
     String filename = basename(_imageFile.path);
     StorageReference firebaseStorageRef =
@@ -219,10 +228,15 @@ class _CaptureMediaState extends State<CaptureMedia> {
                         switch (snapshot.connectionState) {
                           case ConnectionState.none:
                           case ConnectionState.waiting:
-                            return const Text(
-                              'You have not yet picked an image.',
-                              textAlign: TextAlign.center,
+                            return new Container(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Text(
+                                'You have not yet picked an image.',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
                             );
+
                           case ConnectionState.done:
                             return isVideo
                                 ? _previewVideo(_controller)
@@ -234,9 +248,13 @@ class _CaptureMediaState extends State<CaptureMedia> {
                                 textAlign: TextAlign.center,
                               );
                             } else {
-                              return const Text(
-                                'You have not yet picked an image.',
-                                textAlign: TextAlign.center,
+                              return new Container(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: Text(
+                                  'You have not yet picked an image.',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
                               );
                             }
                         }
@@ -245,9 +263,11 @@ class _CaptureMediaState extends State<CaptureMedia> {
                   : (isVideo ? _previewVideo(_controller) : _previewImage()),
             ),
             new Container(
-                padding: const EdgeInsets.only(left: 40.0, top: 20.0,right: 40),
                 child: new RaisedButton(
-                    child: const Text('Submit Selected Media'),
+                    child: const Text(
+                      'Submit Selected Media',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     onPressed: () {
                       _isButtonDisabled ? null : _uploadPic(context);
                     }))

@@ -197,7 +197,10 @@ class _AppFormState extends State<SearchForms> {
                     padding:
                         const EdgeInsets.only(left: 105, right: 105, top: 20.0),
                     child: new RaisedButton(
-                      child: const Text('Submit Search'),
+                      child: const Text(
+                        'Submit Search',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       onPressed: _submitForm,
                     )),
               ],
