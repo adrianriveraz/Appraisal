@@ -1,3 +1,6 @@
+import 'package:appraisal_project/screens/login/login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
@@ -280,14 +283,15 @@ class _AppFormState extends State<AppForm> {
   }
 
 //submit the form, for now just print the passed values
-  void _submitForm() {
+  void _submitForm() async {
     final FormState form = _formKey.currentState;
 
     if (!form.validate()) {
       showMessage('Form is not valid!  Please review and correct.');
     } else {
       form.save(); //Invoke each onSaved event
-
+      FirebaseUser user = await FirebaseAuth.instance.currentUser();
+      print(user.uid);
       print('Form is up to date...');
       print('Property Address: ${_newForm.paddress}');
       print('City: ${_newForm.city}');

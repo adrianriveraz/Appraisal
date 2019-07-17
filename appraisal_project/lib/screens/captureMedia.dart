@@ -78,12 +78,15 @@ class _CaptureMediaState extends State<CaptureMedia> {
   VideoPlayerController _controller;
   String _retrieveDataError;
   bool _isButtonDisabled;
+  Future<void> _initializeVideoPlayerFuture;
 
   //copy recieved media array into local array it can be updated with new media
   @override
   void initState() {
     super.initState();
     _isButtonDisabled = true;
+    //_initializeVideoPlayerFuture = _controller.initialize();
+    //R_controller.setLooping(true);
     var len;
     if (widget.mediaAttachments.isEmpty) {
       len = 0;
@@ -119,25 +122,6 @@ class _CaptureMediaState extends State<CaptureMedia> {
       _controller.setVolume(0.0);
       _controller.removeListener(_onVideoControllerUpdate);
     }
-    // if (isVideo) {
-    //   video = await ImagePicker.pickVideo(source: source);
-    //   //ImagePicker.pickVideo(source: source).then((File file) {
-    //   if (video != null && mounted) {
-    //       setState(() {
-    //         _controller = VideoPlayerController.file(video)
-    //           ..addListener(_onVideoControllerUpdate)
-    //           ..setVolume(1.0)
-    //           ..initialize()
-    //           ..setLooping(true)
-    //           ..play();
-    //       });
-
-    //    //   print(_controller);
-    //    // }
-    //  // });
-    //   print(_controller);
-    //   } 
-    // }
 
    if (isVideo) {
     print("IS VIEDO");
@@ -147,27 +131,18 @@ class _CaptureMediaState extends State<CaptureMedia> {
             _controller = VideoPlayerController.file(file)
               ..addListener(_onVideoControllerUpdate)
               ..setVolume(1.0)
-              ..initialize()
+              //..initialize()
               ..setLooping(true)
               ..play();
+            _initializeVideoPlayerFuture = _controller.initialize();
           });
         
         }
          _videoFile = file;
-        // _isButtonDisabled = false;
-        // print(_controller);
-        // print(_controller.value.initialized);
-        //print(_videoFile);
-        //setState(() {
-        //_videoFile = video;
-        //print("V $_videoFile");
-        //_isButtonDisabled = false;
 
       });
-       // _videoFile = file;
         _isButtonDisabled = false;
         print(_controller);
-        //print(_controller.value.initialized);
       }
     else {
       try {
@@ -205,32 +180,42 @@ class _CaptureMediaState extends State<CaptureMedia> {
   }
 
   Widget _previewVideo(VideoPlayerController controller) {
-    //print("PASSED CONT $controller");
-    //print(_controller.value.initialized);
+    
     final Text retrieveError = _getRetrieveErrorWidget();
-    if (retrieveError != null) {
-      print('RETRIEVE ERROR');
-      return retrieveError;
-    }
-    //print(controller.value.initialized);
-    if (controller == null) {
-      return const Text(
-        'You have not yet picked a video',
-        textAlign: TextAlign.center,
-      );
-    } else if (controller.value.initialized) {
-      return Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: AspectRatioVideo(controller),
-      );
-    } else {
-      print("ERRRORORORORO");
-      return const Text(
+     if (retrieveError != null) {
+       print('RETRIEVE ERROR');
+       return retrieveError;
+     }
+    // if (controller == null) {
+    //   return const Text(
+    //     'You have not yet picked a video',
+    //     textAlign: TextAlign.center,
+    //   );
+    // } else if (controller.value.initialized) {
+      //AspectRatioVideo(controller),
+       return Padding(
+         padding: const EdgeInsets.all(10.0),
+         child: FutureBuilder(
+           future: _initializeVideoPlayerFuture,
+           builder: (context, snapshot){
+             if(snapshot.connectionState == ConnectionState.done){
+               return AspectRatioVideo(controller);
+             }
+             else{
+               return Center(child: CircularProgressIndicator(),);
+             }
+           }
+
+         )
+       );
+    // } else {
+    //   print("ERRRORORORORO");
+    //   return const Text(
         
-        'Error Loading Video',
-        textAlign: TextAlign.center,
-      );
-    }
+    //     'Error Loading Video',
+    //     textAlign: TextAlign.center,
+    //   );
+    // }
   }
 
   Widget _previewImage() {
