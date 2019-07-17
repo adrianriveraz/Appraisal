@@ -1,4 +1,5 @@
 class Appraisal {
+  String _id;
   String _address;
   String _city;
   String _state;
@@ -9,10 +10,20 @@ class Appraisal {
   String _description;
   String _parcel;
 
-  Appraisal(this._address, this._city, this._state, this._zip, this._borrower,
-      this._owner, this._county, this._description, this._parcel);
+  Appraisal(
+      this._id,
+      this._address,
+      this._city,
+      this._state,
+      this._zip,
+      this._borrower,
+      this._owner,
+      this._county,
+      this._description,
+      this._parcel);
 
   Appraisal.map(dynamic obj) {
+    this._id = obj['id'];
     this._address = obj['address'];
     this._city = obj['city'];
     this._state = obj['state'];
@@ -24,8 +35,9 @@ class Appraisal {
     this._parcel = obj['parcel'];
   }
 
+  String get id => _id;
   String get address => _address;
-  String get title => _city;
+  String get city => _city;
   String get state => _state;
   String get zip => _zip;
   String get borrower => _borrower;
@@ -36,8 +48,8 @@ class Appraisal {
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    if (_address != null) {
-      map['address'] = _address;
+    if (_id != null) {
+      map['id'] = _id;
     }
     map['city'] = _city;
     map['state'] = _state;
@@ -52,6 +64,7 @@ class Appraisal {
   }
 
   Appraisal.fromMap(Map<String, dynamic> map) {
+    this._id = map['id'];
     this._address = map['address'];
     this._city = map['city'];
     this._state = map['state'];

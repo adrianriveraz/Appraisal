@@ -1,7 +1,8 @@
 import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
-
+import 'package:appraisal_project/service/firebase_firestore_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 // List for dropdown menu field states
 List<String> _ustates = <String>[
   'AL',
@@ -74,7 +75,7 @@ class _AppFormState extends State<AppForm> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<String> inMediaAttached = List<String>();
-
+ FirebaseFirestoreService db = new FirebaseFirestoreService();
   //copy recieved media array into local array it can be updated with new media
   @override
   void initState() {
