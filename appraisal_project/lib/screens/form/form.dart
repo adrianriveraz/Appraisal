@@ -1,8 +1,14 @@
+import 'package:appraisal_project/screens/form/datamodel/appraisal.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
 import 'package:appraisal_project/service/firebase_firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'dart:async';
+
 // List for dropdown menu field states
 List<String> _ustates = <String>[
   'AL',
@@ -60,9 +66,13 @@ String _ustate = null;
 
 //Form Object defined
 ApForm _newForm = new ApForm();
+Appraisal _note =
+    new Appraisal('a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a');
 
 //create form Widget
 class AppForm extends StatefulWidget {
+  //final Appraisal note;
+  // NoteScreen(this.note);
   @override
   _AppFormState createState() => new _AppFormState();
   AppForm({Key key, this.mediaSaved}) : super(key: key);
@@ -75,7 +85,7 @@ class _AppFormState extends State<AppForm> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<String> inMediaAttached = List<String>();
- FirebaseFirestoreService db = new FirebaseFirestoreService();
+  FirebaseFirestoreService db = new FirebaseFirestoreService();
   //copy recieved media array into local array it can be updated with new media
   @override
   void initState() {
@@ -285,15 +295,16 @@ class _AppFormState extends State<AppForm> {
   }
 
 //submit the form, for now just print the passed values
-  void _submitForm() {
+  void _submitForm() async {
     final FormState form = _formKey.currentState;
-
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
     if (!form.validate()) {
       showMessage('Form is not valid!  Please review and correct.');
     } else {
       form.save(); //Invoke each onSaved event
-
+      _newForm.userNum = user.uid;
       print('Form is up to date...');
+      print('User Id: ${_newForm.userNum}');
       print('Property Address: ${_newForm.paddress}');
       print('City: ${_newForm.city}');
       print('State: ${_newForm.state}');
@@ -307,5 +318,21 @@ class _AppFormState extends State<AppForm> {
       print('========================================');
       print('TODO: Send data to the back end...');
     }
+    db
+        .createNote(
+      _newForm.userNum,
+      _newForm.paddress,
+      _newForm.city,
+      _newForm.state,
+      _newForm.zip,
+      _newForm.borrower,
+      _newForm.opubrec,
+      _newForm.county,
+      _newForm.legaldes,
+      _newForm.apnum,
+    )
+        .then((_) {
+      Navigator.pop(context);
+    });
   }
 }
