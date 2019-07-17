@@ -6,6 +6,59 @@ import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
 
+
+// class AspectRatioVideo extends StatefulWidget {
+//   AspectRatioVideo(this.controller);
+
+//   final VideoPlayerController controller;
+
+//   @override
+//   AspectRatioVideoState createState() => AspectRatioVideoState();
+// }
+
+// class AspectRatioVideoState extends State<AspectRatioVideo> {
+//   VideoPlayerController get controller => widget.controller;
+//   bool initialized = false;
+
+//   void _onVideoControllerUpdate() {
+//     if (!mounted) {
+//       return;
+//     }
+//     if (initialized != controller.value.initialized) {
+//       initialized = controller.value.initialized;
+//       setState(() {});
+//     }
+//   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     controller.addListener(_onVideoControllerUpdate);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     if (initialized) {
+//       return Center(
+//         child: AspectRatio(
+//           aspectRatio: controller.value?.aspectRatio,
+//           child: VideoPlayer(controller),
+//         ),
+//       );
+//     } else {
+//       return Container();
+//     }
+//   }
+// }
+
+
+
+
+
+
+
+
+
 class CaptureMedia extends StatefulWidget {
   CaptureMedia({Key key, this.mediaAttachments}) : super(key: key);
 
@@ -43,18 +96,51 @@ class _CaptureMediaState extends State<CaptureMedia> {
       mediaAttached.add(n);
     }
   }
+  
+  // void _onVideoControllerUpdate() {
+  //   setState(() {});
+  // }
+
+  Text _getRetrieveErrorWidget() {
+     if (_retrieveDataError != null) {
+       final Text result = Text(_retrieveDataError);
+       _retrieveDataError = null;
+       return result;
+     }
+     return null;
+   }
 
   //get image and enable sumbit selected media button
   void _onImageButtonPressed(ImageSource source) async {
     var image;
     var video;
-
+    print(_controller);
     if (_controller != null) {
       _controller.setVolume(0.0);
       _controller.removeListener(_onVideoControllerUpdate);
     }
+    // if (isVideo) {
+    //   video = await ImagePicker.pickVideo(source: source);
+    //   //ImagePicker.pickVideo(source: source).then((File file) {
+    //   if (video != null && mounted) {
+    //       setState(() {
+    //         _controller = VideoPlayerController.file(video)
+    //           ..addListener(_onVideoControllerUpdate)
+    //           ..setVolume(1.0)
+    //           ..initialize()
+    //           ..setLooping(true)
+    //           ..play();
+    //       });
 
-    if (isVideo) {
+    //    //   print(_controller);
+    //    // }
+    //  // });
+    //   print(_controller);
+    //   } 
+    // }
+
+   if (isVideo) {
+    print("IS VIEDO");
       video = ImagePicker.pickVideo(source: source).then((File file) {
         if (file != null && mounted) {
           setState(() {
@@ -67,13 +153,23 @@ class _CaptureMediaState extends State<CaptureMedia> {
           });
         
         }
-        setState(() {
-        _videoFile = video;
-        _isButtonDisabled = false;
+         _videoFile = file;
+        // _isButtonDisabled = false;
+        // print(_controller);
+        // print(_controller.value.initialized);
+        //print(_videoFile);
+        //setState(() {
+        //_videoFile = video;
+        //print("V $_videoFile");
+        //_isButtonDisabled = false;
 
       });
-      });
-    } else {
+       // _videoFile = file;
+        _isButtonDisabled = false;
+        print(_controller);
+        //print(_controller.value.initialized);
+      }
+    else {
       try {
         image = await ImagePicker.pickImage(source: source);
       } catch (e) {
@@ -85,6 +181,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
       });
     }
   }
+ // }
 
   void _onVideoControllerUpdate() {
     setState(() {});
@@ -108,10 +205,14 @@ class _CaptureMediaState extends State<CaptureMedia> {
   }
 
   Widget _previewVideo(VideoPlayerController controller) {
+    //print("PASSED CONT $controller");
+    //print(_controller.value.initialized);
     final Text retrieveError = _getRetrieveErrorWidget();
     if (retrieveError != null) {
+      print('RETRIEVE ERROR');
       return retrieveError;
     }
+    //print(controller.value.initialized);
     if (controller == null) {
       return const Text(
         'You have not yet picked a video',
@@ -123,7 +224,9 @@ class _CaptureMediaState extends State<CaptureMedia> {
         child: AspectRatioVideo(controller),
       );
     } else {
+      print("ERRRORORORORO");
       return const Text(
+        
         'Error Loading Video',
         textAlign: TextAlign.center,
       );
@@ -151,6 +254,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
   }
 
   Future<void> retrieveLostData() async {
+    print("In Retrive lost data");
     final LostDataResponse response = await ImagePicker.retrieveLostData();
     if (response.isEmpty) {
       return;
@@ -182,16 +286,24 @@ class _CaptureMediaState extends State<CaptureMedia> {
   }
 
   Future _uploadPic(BuildContext context) async {
+    print("Button Pressed");
     //upload selected picture to firebase
     String filename;
+    StorageReference firebaseStorageRef;
+    StorageUploadTask uploadTask;
     if(isVideo){
+      print("HEHEHEHEHEHEH");
       filename = basename(_videoFile.path);
+      print("FILENAME $filename");
+      firebaseStorageRef = FirebaseStorage.instance.ref().child(filename);
+      uploadTask = firebaseStorageRef.putFile(_videoFile);
     }
     else{
+      print("CORRECORRE");
       filename = basename(_imageFile.path);
+      firebaseStorageRef = FirebaseStorage.instance.ref().child(filename);
+      uploadTask = firebaseStorageRef.putFile(_imageFile);
     }
-    StorageReference firebaseStorageRef = FirebaseStorage.instance.ref().child(filename);
-    StorageUploadTask uploadTask = firebaseStorageRef.putFile(_imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     String downloadUrl = taskSnapshot.ref.getDownloadURL().toString();
     print(downloadUrl);
@@ -258,7 +370,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
                   : (isVideo ? _previewVideo(_controller) : _previewImage()),
             ),
             new Container(
-                padding: const EdgeInsets.only(left: 40.0, top: 20.0,right: 40),
+                //padding: const EdgeInsets.only(left: 40.0, top: 20.0,right: 40),
                 child: new RaisedButton(
                     child: const Text('Submit Selected Media'),
                     onPressed: () {
@@ -320,56 +432,57 @@ class _CaptureMediaState extends State<CaptureMedia> {
     );
   }
 
-  Text _getRetrieveErrorWidget() {
-    if (_retrieveDataError != null) {
-      final Text result = Text(_retrieveDataError);
-      _retrieveDataError = null;
-      return result;
-    }
-    return null;
-  }
+  // Text _getRetrieveErrorWidget() {
+  //   if (_retrieveDataError != null) {
+  //     final Text result = Text(_retrieveDataError);
+  //     _retrieveDataError = null;
+  //     return result;
+  //   }
+  //   return null;
+  // }
 }
 
-class AspectRatioVideo extends StatefulWidget {
-  AspectRatioVideo(this.controller);
+ class AspectRatioVideo extends StatefulWidget {
+   AspectRatioVideo(this.controller);
 
-  final VideoPlayerController controller;
+   final VideoPlayerController controller;
 
-  @override
-  AspectRatioVideoState createState() => AspectRatioVideoState();
-}
+   @override
+   AspectRatioVideoState createState() => AspectRatioVideoState();
+ }
 
-class AspectRatioVideoState extends State<AspectRatioVideo> {
-  VideoPlayerController get controller => widget.controller;
-  bool initialized = false;
+ class AspectRatioVideoState extends State<AspectRatioVideo> {
+   VideoPlayerController get controller => widget.controller;
+   bool initialized = false;
 
-  void _onVideoControllerUpdate() {
-    if (!mounted) {
-      return;
-    }
-    if (initialized != controller.value.initialized) {
-      initialized = controller.value.initialized;
-      setState(() {});
-    }
-  }
+   void _onVideoControllerUpdate() {
+     if (!mounted) {
+       return;
+     }
+     if (initialized != controller.value.initialized) {
+       initialized = controller.value.initialized;
+       setState(() {});
+     }
+   }
 
-  @override
-  void initState() {
-    super.initState();
-    controller.addListener(_onVideoControllerUpdate);
-  }
+   @override
+   void initState() {
+     super.initState();
+     controller.addListener(_onVideoControllerUpdate);
+   }
 
-  @override
-  Widget build(BuildContext context) {
-    if (initialized) {
-      return Center(
-        child: AspectRatio(
-          aspectRatio: controller.value?.aspectRatio,
-          child: VideoPlayer(controller),
-        ),
-      );
-    } else {
-      return Container();
-    }
-  }
-}
+   @override
+   Widget build(BuildContext context) {
+     if (initialized) {
+       return Center(
+         child: AspectRatio(
+           aspectRatio: controller.value?.aspectRatio,
+           child: VideoPlayer(controller),
+         ),
+       );
+     } else {
+       return Container();
+     }
+   }
+ }
+//}
