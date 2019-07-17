@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
@@ -73,6 +75,8 @@ class AppForm extends StatefulWidget {
 class _AppFormState extends State<AppForm> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  static Firestore db = Firestore.instance;
+  CollectionReference notesCollectionRef = db.collection('appraisal');
   List<String> inMediaAttached = List<String>();
   
   //copy recieved media array into local array it can be updated with new media
@@ -251,6 +255,8 @@ class _AppFormState extends State<AppForm> {
           ),
         ))
     );}
+
+
 
 //recieve media attached array from Capture Media Screen
 void _awaitReturnValueFromMedia(BuildContext context) async {
