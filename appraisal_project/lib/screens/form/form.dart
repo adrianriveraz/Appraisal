@@ -1,12 +1,10 @@
 import 'package:appraisal_project/screens/form/datamodel/appraisal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
 import 'package:appraisal_project/service/firebase_firestore_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'dart:async';
 
 // List for dropdown menu field states
@@ -71,7 +69,7 @@ Appraisal _note =
 
 //create form Widget
 class AppForm extends StatefulWidget {
-  //final Appraisal note;
+  Appraisal note;
   // NoteScreen(this.note);
   @override
   _AppFormState createState() => new _AppFormState();
