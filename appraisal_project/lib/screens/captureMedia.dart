@@ -129,9 +129,9 @@ class _CaptureMediaState extends State<CaptureMedia> {
      if (retrieveError != null) {
        print('RETRIEVE ERROR');
        return retrieveError;
-     }
+     }if (_videoFile != null) {
        return Padding(
-         padding: const EdgeInsets.all(10.0),
+         padding: const EdgeInsets.all(1.0),
          child: FutureBuilder(
            future: _initializeVideoPlayerFuture,
            builder: (context, snapshot){
@@ -147,6 +147,16 @@ class _CaptureMediaState extends State<CaptureMedia> {
 
          )
        );
+     }else {
+      return new Container(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: Text(
+          'You have not yet picked an video.',
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
  
   }
 
@@ -207,20 +217,16 @@ class _CaptureMediaState extends State<CaptureMedia> {
   }
 
   Future _uploadPic(BuildContext context) async {
-    print("Button Pressed");
     //upload selected picture to firebase
     String filename;
     StorageReference firebaseStorageRef;
     StorageUploadTask uploadTask;
     if(isVideo){
-      print("HEHEHEHEHEHEH");
       filename = basename(_videoFile.path);
-      print("FILENAME $filename");
       firebaseStorageRef = FirebaseStorage.instance.ref().child(filename);
       uploadTask = firebaseStorageRef.putFile(_videoFile);
     }
     else{
-      print("CORRECORRE");
       filename = basename(_imageFile.path);
       firebaseStorageRef = FirebaseStorage.instance.ref().child(filename);
       uploadTask = firebaseStorageRef.putFile(_imageFile);
@@ -237,6 +243,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
       mediaAttached.add(downloadUrl);
       showMessage("Media Uploaded Successfully!");
       _imageFile = null;
+      _videoFile = null;
       _isButtonDisabled = true;
     });
   }
@@ -279,6 +286,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
                                 ? _previewVideo(_controller)
                                 : _previewImage();
                           default:
+                            print("In future builder");
                             if (snapshot.hasError) {
                               return Text(
                                 'Pick image/video error: ${snapshot.error}}',
