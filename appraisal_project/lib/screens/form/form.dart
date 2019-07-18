@@ -1,11 +1,9 @@
 import 'package:appraisal_project/screens/form/datamodel/appraisal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
 import 'package:appraisal_project/service/firebase_firestore_service.dart';
-
 
 // List for dropdown menu field states
 List<String> _ustates = <String>[
