@@ -4,8 +4,8 @@ import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
 import 'package:appraisal_project/service/firebase_firestore_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:async';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'dart:async';
 
 // List for dropdown menu field states
 List<String> _ustates = <String>[
@@ -69,11 +69,11 @@ Appraisal _note =
 
 //create form Widget
 class AppForm extends StatefulWidget {
-  Appraisal note;
+  final Appraisal note;
+  AppForm({Key key, this.mediaSaved, this.note}) : super(key: key);
   // NoteScreen(this.note);
   @override
   _AppFormState createState() => new _AppFormState();
-  AppForm({Key key, this.mediaSaved}) : super(key: key);
 
   final List<String> mediaSaved;
 }
