@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:video_player/video_player.dart';
 
 
 // class AspectRatioVideo extends StatefulWidget {
@@ -159,7 +160,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
  // }
 
   void _onVideoControllerUpdate() {
-    setState(() {});
+    //qsetState(() {});
   }
 
   @override
@@ -199,7 +200,9 @@ class _CaptureMediaState extends State<CaptureMedia> {
            future: _initializeVideoPlayerFuture,
            builder: (context, snapshot){
              if(snapshot.connectionState == ConnectionState.done){
-               return AspectRatioVideo(controller);
+               return AspectRatio(
+                 aspectRatio: controller.value.aspectRatio,
+                 child: VideoPlayer(controller));
              }
              else{
                return Center(child: CircularProgressIndicator(),);
@@ -355,7 +358,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
                   : (isVideo ? _previewVideo(_controller) : _previewImage()),
             ),
             new Container(
-                //padding: const EdgeInsets.only(left: 40.0, top: 20.0,right: 40),
+                padding: const EdgeInsets.only(left: 40.0, top: 20.0,right: 40),
                 child: new RaisedButton(
                     child: const Text('Submit Selected Media'),
                     onPressed: () {
