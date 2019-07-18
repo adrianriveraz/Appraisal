@@ -1,5 +1,5 @@
 class ApForm {
-  int userNum;
+  String userNum;
   String paddress;
   String city;
   String state;

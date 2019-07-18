@@ -5,7 +5,10 @@ class GoSearchAppFormButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      child: Text("Search Apprasial Forms"),
+      child: Text(
+        "Search Apprasial Forms",
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
       onPressed: () {
         Navigator.of(context).pushNamed('/searchforms');
       },

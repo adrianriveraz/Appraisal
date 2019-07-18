@@ -5,59 +5,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
-import 'package:video_player/video_player.dart';
-
-
-// class AspectRatioVideo extends StatefulWidget {
-//   AspectRatioVideo(this.controller);
-
-//   final VideoPlayerController controller;
-
-//   @override
-//   AspectRatioVideoState createState() => AspectRatioVideoState();
-// }
-
-// class AspectRatioVideoState extends State<AspectRatioVideo> {
-//   VideoPlayerController get controller => widget.controller;
-//   bool initialized = false;
-
-//   void _onVideoControllerUpdate() {
-//     if (!mounted) {
-//       return;
-//     }
-//     if (initialized != controller.value.initialized) {
-//       initialized = controller.value.initialized;
-//       setState(() {});
-//     }
-//   }
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     controller.addListener(_onVideoControllerUpdate);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     if (initialized) {
-//       return Center(
-//         child: AspectRatio(
-//           aspectRatio: controller.value?.aspectRatio,
-//           child: VideoPlayer(controller),
-//         ),
-//       );
-//     } else {
-//       return Container();
-//     }
-//   }
-// }
-
-
-
-
-
-
-
 
 
 class CaptureMedia extends StatefulWidget {
@@ -86,8 +33,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
   void initState() {
     super.initState();
     _isButtonDisabled = true;
-    //_initializeVideoPlayerFuture = _controller.initialize();
-    //R_controller.setLooping(true);
+
     var len;
     if (widget.mediaAttachments.isEmpty) {
       len = 0;
@@ -101,9 +47,6 @@ class _CaptureMediaState extends State<CaptureMedia> {
     }
   }
   
-  // void _onVideoControllerUpdate() {
-  //   setState(() {});
-  // }
 
   Text _getRetrieveErrorWidget() {
      if (_retrieveDataError != null) {
@@ -157,7 +100,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
       });
     }
   }
- // }
+ 
 
   void _onVideoControllerUpdate() {
     //qsetState(() {});
@@ -187,13 +130,6 @@ class _CaptureMediaState extends State<CaptureMedia> {
        print('RETRIEVE ERROR');
        return retrieveError;
      }
-    // if (controller == null) {
-    //   return const Text(
-    //     'You have not yet picked a video',
-    //     textAlign: TextAlign.center,
-    //   );
-    // } else if (controller.value.initialized) {
-      //AspectRatioVideo(controller),
        return Padding(
          padding: const EdgeInsets.all(10.0),
          child: FutureBuilder(
@@ -211,14 +147,7 @@ class _CaptureMediaState extends State<CaptureMedia> {
 
          )
        );
-    // } else {
-    //   print("ERRRORORORORO");
-    //   return const Text(
-        
-    //     'Error Loading Video',
-    //     textAlign: TextAlign.center,
-    //   );
-    // }
+ 
   }
 
   Widget _previewImage() {
@@ -234,9 +163,13 @@ class _CaptureMediaState extends State<CaptureMedia> {
         textAlign: TextAlign.center,
       );
     } else {
-      return const Text(
-        'You have not yet picked an image.',
-        textAlign: TextAlign.center,
+      return new Container(
+        padding: const EdgeInsets.only(bottom: 10.0),
+        child: Text(
+          'You have not yet picked an image.',
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
       );
     }
   }
@@ -332,10 +265,15 @@ class _CaptureMediaState extends State<CaptureMedia> {
                         switch (snapshot.connectionState) {
                           case ConnectionState.none:
                           case ConnectionState.waiting:
-                            return const Text(
-                              'You have not yet picked an image.',
-                              textAlign: TextAlign.center,
+                            return new Container(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Text(
+                                'You have not yet picked an image.',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
                             );
+
                           case ConnectionState.done:
                             return isVideo
                                 ? _previewVideo(_controller)
@@ -347,9 +285,13 @@ class _CaptureMediaState extends State<CaptureMedia> {
                                 textAlign: TextAlign.center,
                               );
                             } else {
-                              return const Text(
-                                'You have not yet picked an image.',
-                                textAlign: TextAlign.center,
+                              return new Container(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: Text(
+                                  'You have not yet picked an image.',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  textAlign: TextAlign.center,
+                                ),
                               );
                             }
                         }
@@ -358,9 +300,11 @@ class _CaptureMediaState extends State<CaptureMedia> {
                   : (isVideo ? _previewVideo(_controller) : _previewImage()),
             ),
             new Container(
-                padding: const EdgeInsets.only(left: 40.0, top: 20.0,right: 40),
                 child: new RaisedButton(
-                    child: const Text('Submit Selected Media'),
+                    child: const Text(
+                      'Submit Selected Media',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     onPressed: () {
                       _isButtonDisabled ? null : _uploadPic(context);
                     }))
@@ -420,14 +364,6 @@ class _CaptureMediaState extends State<CaptureMedia> {
     );
   }
 
-  // Text _getRetrieveErrorWidget() {
-  //   if (_retrieveDataError != null) {
-  //     final Text result = Text(_retrieveDataError);
-  //     _retrieveDataError = null;
-  //     return result;
-  //   }
-  //   return null;
-  // }
 }
 
  class AspectRatioVideo extends StatefulWidget {
@@ -473,4 +409,3 @@ class _CaptureMediaState extends State<CaptureMedia> {
      }
    }
  }
-//}

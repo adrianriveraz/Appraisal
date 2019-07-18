@@ -1,9 +1,11 @@
-import 'package:appraisal_project/screens/login/login.dart';
+import 'package:appraisal_project/screens/form/datamodel/appraisal.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../captureMedia.dart';
 import 'package:flutter/material.dart';
 import 'package:appraisal_project/screens/form/formdef.dart';
+import 'package:appraisal_project/service/firebase_firestore_service.dart';
+
 
 // List for dropdown menu field states
 List<String> _ustates = <String>[
@@ -62,6 +64,8 @@ String _ustate = null;
 
 //Form Object defined
 ApForm _newForm = new ApForm();
+Appraisal _note =
+    new Appraisal('a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',[]);
 
 //create form Widget
 class AppForm extends StatefulWidget {
@@ -77,6 +81,7 @@ class _AppFormState extends State<AppForm> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List<String> inMediaAttached = List<String>();
+  FirebaseFirestoreService db = new FirebaseFirestoreService();
 
   //copy recieved media array into local array it can be updated with new media
   @override
@@ -220,19 +225,14 @@ class _AppFormState extends State<AppForm> {
                         : null,
                     onSaved: (val) => _newForm.apnum = val,
                   ),
-                  //validator: (val) => val.isEmpty ? 'Assessor Parcel Number is required' : null,
-                  //onSaved: (val) => _newForm.apnum = val,
-                  //),
-
-                  //new Center(
-                  // child: CaptureMediaButton()
-                  //),
+                  
                   new Container(
                     padding:
                         const EdgeInsets.only(left: 110, right: 110, top: 5.0),
                     child: RaisedButton(
                       child: Text(
                         'Record Media',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       onPressed: () {
                         _awaitReturnValueFromMedia(context);
@@ -245,7 +245,10 @@ class _AppFormState extends State<AppForm> {
                       padding: const EdgeInsets.only(
                           left: 130, right: 130, top: 5.0),
                       child: new RaisedButton(
-                        child: const Text('Submit'),
+                        child: const Text(
+                          'Submit',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
                         onPressed: _submitForm,
                       )),
                 ],
@@ -285,26 +288,44 @@ class _AppFormState extends State<AppForm> {
 //submit the form, for now just print the passed values
   void _submitForm() async {
     final FormState form = _formKey.currentState;
-
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
     if (!form.validate()) {
       showMessage('Form is not valid!  Please review and correct.');
     } else {
       form.save(); //Invoke each onSaved event
-      FirebaseUser user = await FirebaseAuth.instance.currentUser();
-      print(user.uid);
-      print('Form is up to date...');
-      print('Property Address: ${_newForm.paddress}');
-      print('City: ${_newForm.city}');
-      print('State: ${_newForm.state}');
-      print('Zip Code: ${_newForm.zip}');
-      print('Borrower: ${_newForm.borrower}');
-      print('Owner of Public Record: ${_newForm.opubrec}');
-      print('County: ${_newForm.county}');
-      print('Legal Description: ${_newForm.legaldes}');
-      print('Assessor Parcel Number: ${_newForm.apnum}');
+      //print(user.uid);
+      _newForm.userNum = user.uid;
+      //print('Form is up to date...');
+      //print('User Id: ${_newForm.userNum}');
+      //print('Property Address: ${_newForm.paddress}');
+      //print('City: ${_newForm.city}');
+      //print('State: ${_newForm.state}');
+      //print('Zip Code: ${_newForm.zip}');
+      //print('Borrower: ${_newForm.borrower}');
+      //print('Owner of Public Record: ${_newForm.opubrec}');
+      //print('County: ${_newForm.county}');
+      //print('Legal Description: ${_newForm.legaldes}');
+      //print('Assessor Parcel Number: ${_newForm.apnum}');
 
-      print('========================================');
-      print('TODO: Send data to the back end...');
+      //print('========================================');
+      //print('TODO: Send data to the back end...');
     }
+    db
+        .createNote(
+      _newForm.userNum,
+      _newForm.paddress,
+      _newForm.city,
+      _newForm.state,
+      _newForm.zip,
+      _newForm.borrower,
+      _newForm.opubrec,
+      _newForm.county,
+      _newForm.legaldes,
+      _newForm.apnum,
+      _newForm.attachedMedia
+    )
+        .then((_) {
+      Navigator.pop(context);
+    });
   }
 }
