@@ -1,4 +1,5 @@
 import 'package:appraisal_project/root.dart';
+import 'package:appraisal_project/screens/form/displayForm.dart';
 import 'package:appraisal_project/screens/form/form.dart';
 import 'package:appraisal_project/screens/searchForms.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     //get passed in arguments
     //final args = settings.arguments;
-    List<String> v= new List<String>();
+    List<String> v = new List<String>();
 
     switch (settings.name) {
       case '/': //login page
@@ -23,12 +24,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Home());
 
       case '/appForm': //form page
-      //add type validation later
+        //add type validation later
         return MaterialPageRoute(builder: (_) => AppForm(mediaSaved: v));
-      
+
       case '/mediaCapture': //form page
         //add type validation later
-        return MaterialPageRoute(builder: (_) => CaptureMedia());//CaptureMedia());
+        return MaterialPageRoute(
+            builder: (_) => CaptureMedia()); //CaptureMedia());
 
       case '/vieweditforms': //form page
         //add type validation later
@@ -36,6 +38,9 @@ class RouteGenerator {
       case '/searchforms': //form page
         //add type validation later
         return MaterialPageRoute(builder: (_) => SearchForms());
+      case '/displayform': //form page
+        //add type validation later
+        return MaterialPageRoute(builder: (_) => DisplayForm());
       default: //otherwise navigate to error page
         return _errorRoute();
     }

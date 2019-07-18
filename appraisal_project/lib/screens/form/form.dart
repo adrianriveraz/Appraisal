@@ -63,14 +63,13 @@ String _ustate = null;
 //Form Object defined
 ApForm _newForm = new ApForm();
 Appraisal _note =
-    new Appraisal('a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a',[]);
+    new Appraisal('a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a','a');
 
 //create form Widget
 class AppForm extends StatefulWidget {
   @override
   _AppFormState createState() => new _AppFormState();
   AppForm({Key key, this.mediaSaved}) : super(key: key);
-
   final List<String> mediaSaved;
 }
 
@@ -273,7 +272,7 @@ class _AppFormState extends State<AppForm> {
       } else {
         inMediaAttached = result;
       }
-      _newForm.attachedMedia = inMediaAttached;
+      _newForm.attachedMedia = inMediaAttached.length.toString();
     });
   }
 

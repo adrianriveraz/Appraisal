@@ -9,5 +9,5 @@ class ApForm {
   String county;
   String legaldes;
   String apnum;
-  List<String> attachedMedia;
+  String attachedMedia;
 }

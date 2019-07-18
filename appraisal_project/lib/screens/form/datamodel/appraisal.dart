@@ -9,7 +9,7 @@ class Appraisal {
   String _county;
   String _description;
   String _parcel;
-  List<String> _mediaCaptured;
+  String _mediaCaptured;
 
   Appraisal(
       this._id,
@@ -22,7 +22,8 @@ class Appraisal {
       this._county,
       this._description,
       this._parcel,
-      this._mediaCaptured);
+      this._mediaCaptured
+      );
 
   Appraisal.map(dynamic obj) {
     this._id = obj['id'];
@@ -48,7 +49,7 @@ class Appraisal {
   String get county => _county;
   String get description => _description;
   String get parcel => _parcel;
-  List<String> get mediaCaptured => _mediaCaptured;
+  String get mediaCaptured => _mediaCaptured;
 
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();

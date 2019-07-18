@@ -25,12 +25,12 @@ class FirebaseFirestoreService {
       String county,
       String description,
       String parcel,
-      List<String> mediaCaptured) async {
+      String mediaCaptured) async {
     final TransactionHandler createTransaction = (Transaction tx) async {
       final DocumentSnapshot ds = await tx.get(noteCollection.document());
 
       final Appraisal note = new Appraisal(id, address, city, state, zip,
-          borrower, owner, county, description, parcel, mediaCaptured);
+          borrower, owner, county, description, parcel,mediaCaptured);
       final Map<String, dynamic> data = note.toMap();
 
       await tx.set(ds.reference, data);

@@ -1,14 +1,11 @@
 import 'package:appraisal_project/screens/form/datamodel/appraisal.dart';
+import 'package:appraisal_project/screens/form/displayForm.dart';
 import 'package:flutter/material.dart';
-import 'package:appraisal_project/screens/home/widgets/goappform_button.dart';
-import 'package:appraisal_project/screens/home/widgets/gosearchappform_button.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:appraisal_project/screens/form/form.dart';
-import 'package:appraisal_project/screens/form/datamodel/appraisal.dart';
 import 'package:appraisal_project/service/firebase_firestore_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:appraisal_project/screens/form/formdef.dart';
+
+
 class DynamicListViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -58,76 +55,50 @@ class BodyLayoutState extends State<BodyLayout> {
     noteSub?.cancel();
     super.dispose();
   }
-  // backing data
-  // List<String> _data = [
-  //   '5900 Granite Pkwy',
-  //   '1600 Pennslyvania Ave',
-  //   '11 Wall Street'
-  // ];
+
   @override
-Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'grokonez Firestore Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('grokonez Firestore Demo'),
-          centerTitle: true,
-          backgroundColor: Colors.blue,
-        ),
-        body: Center(
-          child: ListView.builder(
-              itemCount: items.length,
-              padding: const EdgeInsets.all(15.0),
-              itemBuilder: (context, position) {
-                return Column(
-                  children: <Widget>[
-                    Divider(height: 5.0),
-                    ListTile(
-                      title: Text(
-                        '${items[position].id}',
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          color: Colors.deepOrangeAccent,
-                        ),
-                      ),
-                      subtitle: Text(
-                        '${items[position].address}',
-                        style: new TextStyle(
-                          fontSize: 18.0,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                      leading: Column(
-                        children: <Widget>[
-                          Padding(padding: EdgeInsets.all(10.0)),
-                          CircleAvatar(
-                            backgroundColor: Colors.blueAccent,
-                            radius: 15.0,
-                            child: Text(
-                              '${position + 1}',
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                              icon: const Icon(Icons.remove_circle_outline),
-                              onPressed: () => _deleteNote(context, items[position], position)),
-                        ],
-                      ),
-                      // onTap: () => _navigateToNote(context, items[position]),
+  Widget build(BuildContext context) {
+    // return Column(
+    // children: <Widget>[
+    return ListView.builder(
+        itemCount: items.length,
+        // padding: const EdgeInsets.all(15.0),
+        itemBuilder: (context, position) {
+          return Column(
+            children: <Widget>[
+              // Divider(height: 5.0),
+              Card(
+                child: ListTile(
+                  title: Text(
+                    '${items[position].address}',
+                  ),
+                  subtitle: Text(
+                    '${items[position].description}',
+                    style: new TextStyle(
+                      fontStyle: FontStyle.italic,
                     ),
-                  ],
-                );
-              }),
-        ),
-        // floatingActionButton: FloatingActionButton(
-        //   child: Icon(Icons.add),
-        //   onPressed: () => _createNewNote(context),
-        // ),
-      ),
-    );
+                  ),
+                  
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DisplayForm(inForm: items[position]),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        });
+    // ],
+    // );
+
+    // floatingActionButton: FloatingActionButton(
+    //   child: Icon(Icons.add),
+    //   onPressed: () => _createNewNote(context),
+    // ),
   }
   // @override
   // Widget build(BuildContext context) {
@@ -166,23 +137,23 @@ Widget build(BuildContext context) {
   //   );
   // }
 
-  // This is the animated row with the Card.
-  Widget _buildItem(String item, Animation animation) {
-    return SizeTransition(
-      sizeFactor: animation,
-      child: Card(
-        child: ListTile(
-          onTap: () {
-            Navigator.of(context).pushNamed('/appForm');
-          },
-          title: Text(
-            item,
-            style: TextStyle(fontSize: 20),
-          ),
-        ),
-      ),
-    );
-  }
+  // // This is the animated row with the Card.
+  // Widget _buildItem(String item, Animation animation) {
+  //   return SizeTransition(
+  //     sizeFactor: animation,
+  //     child: Card(
+  //       child: ListTile(
+  //         onTap: () {
+  //           Navigator.of(context).pushNamed('/appForm');
+  //         },
+  //         title: Text(
+  //           item,
+  //           style: TextStyle(fontSize: 20),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   // void _insertSingleItem() {
   //   String newItem = "Address";
@@ -207,18 +178,18 @@ Widget build(BuildContext context) {
   //   _listKey.currentState.removeItem(removeIndex, builder);
   // }
 
-  void _deleteNote(BuildContext context, Appraisal note, int position) async {
-    db.deleteNote(note.id).then((notes) {
-      setState(() {
-        items.removeAt(position);
-      });
-    });
-  }
+  // void _deleteNote(BuildContext context, Appraisal note, int position) async {
+  //   db.deleteNote(note.id).then((notes) {
+  //     setState(() {
+  //       items.removeAt(position);
+  //     });
+  //   });
+  // }
 
   // void _navigateToNote(BuildContext context, Appraisal note) async {
   //   await Navigator.push(
   //     context,
-  //     MaterialPageRoute(builder: (context) => AppForm(note)),
+  //     MaterialPageRoute(builder: (context) => AppForm()),
   //   );
   // }
 
